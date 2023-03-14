@@ -1,0 +1,73 @@
+@use "sass:map" as *;
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+$screens: "sm", "md", "lg", "xl", "2xl";
+
+$variables: (
+        'spacing': (
+                "sm": (
+                        "default": "12px",
+                        "md":"24px"
+                )
+        ),
+        'colors': (
+                "primary": (
+                        "default": "#FF5D48",
+                )
+        ),
+        'drop-shadow': (
+                "block-xs" : (
+                        "default": "3px 3px 0 var(--tw-shadow-color)"
+                ),
+                "block-sm" : (
+                        "default": "4px 4px 0 var(--tw-shadow-color)"
+                ),
+                "block-md" : (
+                        "default": "6px 6px 0 var(--tw-shadow-color)"
+                ),
+                "block-lg" : (
+                        "default": "12px 12px 0 var(--tw-shadow-color)"
+                ),
+        )
+);
+
+
+@layer base {
+
+  *, ::before, ::after {
+
+    @each $property, $variants in $variables {
+
+      @each $variant, $values in $variants {
+        --#{$property}-#{$variant}: #{get($values, "default")};
+
+        @each $breakpoint in $screens {
+
+          @if has-key($values, $breakpoint) {
+            @screen #{$breakpoint} {
+              --#{$property}-#{$variant}: #{get($values, $breakpoint)}
+            }
+          }
+        }
+
+      }
+    }
+
+  }
+
+}
+
+
+@layer utilities {
+  .box {
+    @apply bg-white border-2 px-sm drop-shadow-block-md shadow-primary hover:drop-shadow-block-sm active:drop-shadow-block-xs;
+
+    &-lg {
+      @apply transition-all bg-white border-2 px-sm drop-shadow-block-lg shadow-primary hover:drop-shadow-block-md active:drop-shadow-block-sm;
+
+    }
+  }
+}
