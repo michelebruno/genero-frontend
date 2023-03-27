@@ -8,6 +8,7 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.191",
     "autoprefixer": "^10.4.14",
     "nuxt": "^3.2.3",
     "postcss": "^8.4.21",
@@ -17,6 +18,7 @@
     "@nuxtjs/sanity": "^1.6.0",
     "@pinia/nuxt": "^0.4.7",
     "@sanity/client": "^5.2.2",
+    "lodash": "^4.17.21",
     "pinia": "^2.0.33",
     "sass": "^1.59.2"
   }

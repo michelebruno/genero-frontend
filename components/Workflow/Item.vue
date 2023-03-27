@@ -1,22 +1,20 @@
 <template>
-  <div :class="['box bg-white', selected && '!border-primary']"
+  <button :class="['block bg-white border-r rounded-xl border border-black px-4 py-2', selected && '!border-primary']"
        @click="workflowStore.setSelectedItem(_id)">
-    <h3 class="font-bold">{{ title }}</h3>
-    <p>{{ description }}</p>
-  </div>
+    <h3 class="font-bold">{{shortTitle || title }}</h3>
+  </button>
 </template>
 
 <script setup lang="ts">
 
-import {Item} from "~/types";
 import {useWorkflowsStore} from "~/store/workflows";
 import {computed} from "#imports";
-
 
 const workflowStore = useWorkflowsStore()
 
 const {title, description, content, _id} = defineProps<{
   title?: string,
+  shortTitle?: string,
   description?: string,
   content?: object,
   _id: string,

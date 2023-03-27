@@ -16,5 +16,8 @@ export default defineNuxtConfig({
     projectId: '4rbzhjxh',
     apiVersion: "2023-03-12"
 
+  },
+  experimental: {
+    reactivityTransform: true
   }
 })

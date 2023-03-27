@@ -1,41 +1,62 @@
 <template>
+  <div class="relative z-10">
+    <select @change="handleWorkflowChange" v-model="currentFlowId">
+      <optgroup :label="topic.title" v-for="topic in topics">
+        <option v-for="flow in flows.filter(t => t.topics?.map( t => t._ref).includes(topic._id))"
+                :value="flow._id" :key="flow._id">
+          {{ flow.title }}
+        </option>
+      </optgroup>
 
-  <div class="grid grid-cols-12 gap-6 max-w-screen-2xl px-8">
-    <div class="col-span-12">
-      <h2 class="text-3xl font-bold">
-        {{ title }}
-      </h2>
-    </div>
-    <div class="col-span-4 grid gap-y-4">
-      <WorkflowItem v-for="item in items" v-bind="getItem(item)"/>
-      <div class="border-b border-black"></div>
-      <div>
-        <button :class="['border p-2 border-primary', canMoveOn ? ' hover:bg-primary hover:bg-opacity-50':'cursor-ew-resize']"
-                :disabled="canMoveOn">Next ->
-        </button>
-      </div>
-    </div>
-    <div class="col-span-8">
-      <WorkflowTab/>
-    </div>
+    </select>
   </div>
+
+  <div class="grid grid-cols-12 gap-x-10 p-10 ">
+
+    <div class="col-span-3 h-step -ml-10 bg-gray-500 rounded-r-2xl">
+
+    </div>
+    <WorkflowStep :step="currentStep" :key="currentStep?._id" class="col-span-9"/>
+  </div>
+
 </template>
 
 <script setup lang="ts">
-
 import {useWorkflowsStore} from "~/store/workflows";
 import {storeToRefs} from "pinia";
-import {useAsyncData} from "#app";
+import _ from 'lodash'
+import {computed} from "#imports";
+
 
 const workflowsStore = useWorkflowsStore()
-const {getItem} = workflowsStore
-const {data} = await useAsyncData('items', workflowsStore.fetchItems)
-const {currentStep, canMoveOn} = storeToRefs(workflowsStore)
+const {getItem, nextStep, prevStep, flows, setCurrentFlow} = workflowsStore
+const {
+  canMoveOn,
+  currentStep,
+  currentFlow,
+  currentStepIndex,
+  topics,
+  status,
+  hasItems,
+  isLastStep
+} = storeToRefs(workflowsStore)
 
-const {items, title, description} = currentStep.value
+function handleWorkflowChange(e: Event) {
+  setCurrentFlow(e.target?.value)
+}
+
+
+const currentFlowId = computed({
+  get: () => currentFlow.value?._id,
+  setter: (value) => setCurrentFlow(value)
+})
 
 </script>
 
 <style scoped>
+
+#widget {
+
+}
 
 </style>

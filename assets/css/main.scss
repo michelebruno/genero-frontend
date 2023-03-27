@@ -11,6 +11,17 @@ $variables: (
                 "sm": (
                         "default": "12px",
                         "md":"24px"
+                ),
+                "md": (
+                        "default": "16px",
+                        "md":"24px"
+                ),
+                "lg": (
+                        "default": "18px",
+                        "md":"28px"
+                ),
+                "step": (
+                        "default" :"80vh"
                 )
         ),
         'colors': (
@@ -36,6 +47,52 @@ $variables: (
 
 
 @layer base {
+
+  @font-face {
+    font-family: "Satoshi Variable";
+    src: local("Satoshi Variable"),
+    url("~/assets/fonts/Satoshi-Variable.eot") format("eot"),
+    url("~/assets/fonts/Satoshi-Variable.ttf") format("truetype"),
+    url("~/assets/fonts/Satoshi-Variable.woff2") format("woff2"),
+    url("~/assets/fonts/Satoshi-Variable.woff") format("woff");
+  }
+
+  @font-face {
+    font-family: "Satoshi Variable";
+    font-style: italic;
+    src: local("Satoshi Variable"),
+    url("~/assets/fonts/Satoshi-VariableItalic.eot") format("eot"),
+    url("~/assets/fonts/Satoshi-VariableItalic.ttf") format("truetype"),
+    url("~/assets/fonts/Satoshi-VariableItalic.woff2") format("woff2"),
+    url("~/assets/fonts/Satoshi-VariableItalic.woff") format("woff");
+  }
+  @font-face {
+    font-family: "PP Neue Montreal";
+    src: local("PP Neue Montreal"),
+    url("~/assets/fonts/PPNeueMontreal-Variable.ttf") format("truetype"),
+    url("~/assets/fonts/PPNeueMontreal-Variable.woff2") format("woff2"),
+  }
+
+  @font-face {
+    font-family: "PP Neue Montreal";
+    font-style: italic;
+    src: local("PP Neue Montreal"),
+    url("~/assets/fonts/PPNeueMontreal-Italic.ttf") format("truetype"),
+    url("~/assets/fonts/PPNeueMontreal-Italic.woff2") format("woff2"),
+  }
+  @font-face {
+    font-family: "PP NeueBit";
+    src: //local("PP NeueBit"),
+    url("~/assets/fonts/PPNeueBit-Regular.woff") format("woff"),
+  }
+  @font-face {
+    font-family: "PP NeueBit";
+    font-weight: bold;
+    src: local("PP NeueBit"),
+    url("~/assets/fonts/PPNeueBit-Bold.otf") format("otf"),
+    url("~/assets/fonts/PPNeueBit-Bold.woff") format("woff");
+  }
+
 
   *, ::before, ::after {
 
@@ -70,4 +127,25 @@ $variables: (
 
     }
   }
+
+  /* Enter and leave animations can use different */
+  /* durations and timing functions.              */
+  .slide-fade-enter-active {
+    transition: all .3s ease;
+  }
+
+  .slide-fade-enter-active {
+    transition: all 0.3s ease-out;
+  }
+
+  .slide-fade-leave-active {
+    transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+  }
+
+  .slide-fade-enter-from,
+  .slide-fade-leave-to {
+    transform: translateX(20px);
+    opacity: 0;
+  }
 }
+

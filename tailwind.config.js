@@ -8,11 +8,20 @@ module.exports = {
         "./nuxt.config.{js,ts}",
         "./app.vue",
     ],
+
+
     theme: {
         extend: {
-            spacing: {
-                "sm": "var(--spacing-sm)"
+            fontFamily: {
+                sans: ['PP Neue Montreal', 'Satoshi Variable', 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"', 'sans'],
+                mono: ['PP NeueBit']
             },
+            spacing: {
+                ...Object.fromEntries(
+                    ['sm', 'md', 'lg', 'step'].map(s => [s, `var(--spacing-${s})`])
+                )
+            },
+
             colors: {
                 "primary": "var(--colors-primary)"
             },
@@ -28,3 +37,4 @@ module.exports = {
     },
     plugins: [],
 }
+
