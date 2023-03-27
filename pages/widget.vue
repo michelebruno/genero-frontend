@@ -11,12 +11,28 @@
     </select>
   </div>
 
-  <div class="grid grid-cols-12 gap-x-10 p-10 ">
+  <div v-if="status==='onboarding'" class="min-h-screen bg-gray-300 p-10 grid grid-cols-12 gap-10">
+
+    <div class="col-span-6">
+      <h3 class="font-mono text-primary font-bold uppercase">Discover how to</h3>
+      <h1 class="text-4xl font-semibold">{{ currentFlow.title }}</h1>
+      <div>
+        <UiButton @click="status = 'started'">Start exploring</UiButton>
+      </div>
+    </div>
+
+  </div>
+  <div v-else class="grid grid-cols-12 gap-x-10 p-10 ">
 
     <div class="col-span-3 h-step -ml-10 bg-gray-500 rounded-r-2xl">
 
     </div>
-    <WorkflowStep :step="currentStep" :key="currentStep?._id" class="col-span-9"/>
+
+    <WorkflowStep v-if="status === 'started'" :step="currentStep" :key="currentStep?._id" class="col-span-9"/>
+    <div v-else class="h-step flex items-center col-span-9">
+      <h2 class="text-2xl font-semibold">Great! You are now ready to design with AI.
+        Here’s your step-by-step guide to {{ currentFlow.title }}</h2>
+    </div>
   </div>
 
 </template>
@@ -29,7 +45,7 @@ import {computed} from "#imports";
 
 
 const workflowsStore = useWorkflowsStore()
-const {getItem, nextStep, prevStep, flows, setCurrentFlow} = workflowsStore
+const {getItem, flows, setCurrentFlow} = workflowsStore
 const {
   canMoveOn,
   currentStep,

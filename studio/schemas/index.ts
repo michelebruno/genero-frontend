@@ -234,6 +234,7 @@ export default [
       defineField({
         type: 'string',
         name: 'type',
+        validation: R => R.required(),
         initialValue: 'choose',
         options: {
           layout: "radio",
@@ -259,7 +260,7 @@ export default [
       defineField({
         type: 'array',
         name: 'items',
-        hidden: hideIf('know'),
+        //   hidden: hideIf('know'),
         of: [
           {
             type: 'reference', to: [{type: 'item'}]

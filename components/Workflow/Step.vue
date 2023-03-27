@@ -2,9 +2,9 @@
 
   <div class="">
     <div class="h-step py-10 flex flex-col justify-between">
-      <div v-if="!step.type || step.type === 'choose'">
+      <div v-if="!step.type || step.type === 'choose' || step.type === 'know'">
 
-        <UiCode class="text-xl">Step #{{currentStepIndex+1}}</UiCode>
+        <CommonCode class="text-xl">Step #{{ currentStepIndex + 1 }}</CommonCode>
         <h2 class="text-4xl font-semibold mb-4">
           {{ step.title }}
         </h2>
@@ -14,7 +14,7 @@
           <SanityContent :blocks="step.content"></SanityContent>
         </div>
 
-        <div v-if="step.type === 'choose'">
+        <div v-if="step.type === 'choose' || !step.type">
           <Transition name="slide-fade">
             <div v-if="selectedItem">
               <h3 class="font-bold text-3xl mb-3">
@@ -29,15 +29,22 @@
             </div>
 
             <div class="my-8" v-else>
-              <UiCode >
+              <CommonCode>
                 Select an option
-              </UiCode>
+              </CommonCode>
               <WorkflowItem v-for="item in step.items" v-bind="getItem(item)" class="mt-4 "/>
             </div>
           </Transition>
 
         </div>
         <div v-else-if="step.type === 'know'">
+
+          <template v-for="item in step.items" >
+            <UiAccordion  :title="getItem(item).title">
+              <SanityContent :blocks="getItem(item).content" :serializers="serializers"></SanityContent>
+            </UiAccordion>
+
+          </template>
 
         </div>
       </div>
@@ -46,15 +53,15 @@
         <div></div>
 
         <div class="font-semibold text-3xl">
-          <SanityContent :blocks="step.content" />
+          <SanityContent :blocks="step.content"/>
         </div>
       </template>
       <div class="flex justify-between w-full">
         <div>
 
           <button v-if="currentStepIndex !== 0 || selectedItem"
-              :class="['border p-2 border-primary' ]"
-              @click="prevStep">← Prev
+                  :class="['border p-2 border-primary' ]"
+                  @click="prevStep">← Prev
           </button>
         </div>
         <button
@@ -77,12 +84,10 @@ import {resolveComponent} from "#imports";
 
 const workflowsStore = useWorkflowsStore()
 const {getItem, nextStep, flows, setCurrentFlow, currentStepIndex} = workflowsStore
-const {selectedItem} = storeToRefs(workflowsStore)
+const {selectedItem, canMoveOn} = storeToRefs(workflowsStore)
 const {step} = defineProps<{ step: Step }>()
 
-const hasItems = step.items?.length
 
-const canMoveOn = computed(() => !hasItems || !!selectedItem.value)
 
 function prevStep() {
   if (selectedItem.value) {
@@ -92,9 +97,9 @@ function prevStep() {
   }
 }
 
-const serializers  = {
+const serializers = {
   marks: {
-    code: resolveComponent('UiCode')
+    code: resolveComponent('CommonCode')
   }
 }
 </script>

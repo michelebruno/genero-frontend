@@ -17,11 +17,20 @@ export const useWorkflowsStore = defineStore('workflows', {
     selectedItem: null as Item | null,
     currentFlow: null as null | Flow,
     flow: null,
-    status: 'started' as 'started' | 'final',
+    status: 'onboarding' as 'onboarding' | 'started' | 'final',
     currentStepIndex: 0
   }),
   getters: {
-    canMoveOn: (s) => (!s.hasItems || s.selectedItem) && !s.isLastStep,
+    canMoveOn: ({currentStep, ...s}) => {
+      const value = currentStep.type !== 'choose' ?
+        true :
+        !currentStep.items?.length || !!s.selectedItem
+
+      console.log("computng canmoveon", value, currentStep.type !== 'choose', currentStep.items?.length, !!s.selectedItem)
+
+      return value
+
+    },
     currentStep: s => {
 
       if (typeof s.currentStepIndex !== 'number' || !s.currentFlow?.steps) return null;
@@ -32,7 +41,7 @@ export const useWorkflowsStore = defineStore('workflows', {
     },
     hasItems: s => s?.currentStep?.items?.length,
     isLastStep(s): boolean {
-      return s?.currentFlow?.steps?.length < (s.currentStepIndex + 1)
+      return s?.currentFlow?.steps?.length <= (s.currentStepIndex + 1)
     }
   },
   actions: {
@@ -60,9 +69,14 @@ export const useWorkflowsStore = defineStore('workflows', {
       this.selectedItem = null
     },
     nextStep() {
+      if (this.isLastStep) {
+        this.status = 'final'
+        this.selectedItem = null
 
-      this.currentStepIndex += 1;
-      this.selectedItem = null
+      } else {
+        this.currentStepIndex += 1;
+        this.selectedItem = null
+      }
 
     },
     getItem(value: Item | string | SanityReference) {
