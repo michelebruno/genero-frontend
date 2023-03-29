@@ -24,8 +24,45 @@ export default [
           {title: 'H5', value: 'h5'},
           {title: 'H6', value: 'h6'},
           {title: 'Quote', value: 'blockquote'}
-        ]
-      }
+        ],
+        marks: {
+          annotations: [
+            {
+              name: 'link',
+              type: 'object',
+              title: 'link',
+              fields: [
+                {
+                  name: 'url',
+                  type: 'url'
+                }
+              ]
+            },
+            {
+              name: 'editable',
+              type: 'object',
+              title: 'Editable',
+              fields: [
+                {
+                  name: 'id',
+                  type: 'string',
+                  title: 'Identifier'
+                },
+
+                {
+                  name: 'replace',
+                  type: 'array',
+                  title: 'Replace',
+                  of: [{type: 'string'}]
+                },
+
+              ]
+            }
+          ]
+
+        }
+      },
+
     ]
   }),
 
@@ -173,6 +210,17 @@ export default [
           }
         ]
       }),
+
+      defineField({
+        type: 'image',
+        name: 'coverImg',
+        title: 'Cover'
+      }),
+      defineField({
+        type: 'image',
+        name: 'networkImg',
+        title: 'Network'
+      }),
       defineField({
         name: 'inputs',
         type: 'array',
@@ -200,6 +248,7 @@ export default [
     preview: {
       select: {
         title: 'title',
+        type: 'type',
         _note: 'note',
         if0: 'showIf.0.title',
         if1: 'showIf.1.title',
@@ -207,11 +256,17 @@ export default [
         if3: 'showIf.3.title',
       },
       prepare(selection) {
-        const {title, _note} = selection
+        const {title, _note, type} = selection
+
+        let subtitle = type;
+
+        if (_note) {
+          subtitle += ' | ' + _note
+        }
 
         return {
           title,
-          subtitle: _note
+          subtitle
         }
       }
     },
@@ -222,11 +277,6 @@ export default [
         title: "Title"
       }),
       defineField({
-        name: 'description',
-        type: 'string',
-        title: "Description"
-      }),
-      defineField({
         name: 'content',
         type: 'content',
         title: "Description"
@@ -235,7 +285,6 @@ export default [
         type: 'string',
         name: 'type',
         validation: R => R.required(),
-        initialValue: 'choose',
         options: {
           layout: "radio",
           list: [
@@ -260,7 +309,7 @@ export default [
       defineField({
         type: 'array',
         name: 'items',
-        //   hidden: hideIf('know'),
+        hidden: hideIf('know'),
         of: [
           {
             type: 'reference', to: [{type: 'item'}]
@@ -271,6 +320,7 @@ export default [
         name: 'showIf',
         title: "Requires",
         type: 'array',
+        hidden: hideIf('know'),
         of: [{
           type: 'reference',
           to: [{

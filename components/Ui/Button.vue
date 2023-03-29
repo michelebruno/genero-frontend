@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-interface ButtonProps {
+type ButtonProps =  {
   primary?: Boolean,
   disabled?: Boolean,
 }

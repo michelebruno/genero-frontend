@@ -18,7 +18,8 @@ export const useWorkflowsStore = defineStore('workflows', {
     currentFlow: null as null | Flow,
     flow: null,
     status: 'onboarding' as 'onboarding' | 'started' | 'final',
-    currentStepIndex: 0
+    currentStepIndex: 0,
+    editableFields: new Map<string,string>()
   }),
   getters: {
     canMoveOn: ({currentStep, ...s}) => {
@@ -26,12 +27,10 @@ export const useWorkflowsStore = defineStore('workflows', {
         true :
         !currentStep.items?.length || !!s.selectedItem
 
-      console.log("computng canmoveon", value, currentStep.type !== 'choose', currentStep.items?.length, !!s.selectedItem)
-
       return value
 
     },
-    currentStep: s => {
+    currentStep: (s): Step | undefined => {
 
       if (typeof s.currentStepIndex !== 'number' || !s.currentFlow?.steps) return null;
 
@@ -39,7 +38,7 @@ export const useWorkflowsStore = defineStore('workflows', {
 
       return s.steps.get(id)
     },
-    hasItems: s => s?.currentStep?.items?.length,
+    hasItems: (s): boolean => s?.currentStep?.items?.length,
     isLastStep(s): boolean {
       return s?.currentFlow?.steps?.length <= (s.currentStepIndex + 1)
     }

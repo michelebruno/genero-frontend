@@ -15,23 +15,32 @@
 
     <div class="col-span-6">
       <h3 class="font-mono text-primary font-bold uppercase">Discover how to</h3>
-      <h1 class="text-4xl font-semibold">{{ currentFlow.title }}</h1>
+      <h1 class="text-5xl font-semibold">{{ currentFlow.title }}</h1>
       <div>
         <UiButton @click="status = 'started'">Start exploring</UiButton>
       </div>
+
+      <SanityImage v-if="currentFlow.networkImg" :asset-id="currentFlow.networkImg?.asset?._ref" class="my-8" />
     </div>
 
   </div>
   <div v-else class="grid grid-cols-12 gap-x-10 p-10 ">
 
-    <div class="col-span-3 h-step -ml-10 bg-gray-500 rounded-r-2xl">
+    <div class="col-span-2 h-step -ml-10 bg-gray-500 rounded-r-2xl">
 
     </div>
 
     <WorkflowStep v-if="status === 'started'" :step="currentStep" :key="currentStep?._id" class="col-span-9"/>
-    <div v-else class="h-step flex items-center col-span-9">
-      <h2 class="text-2xl font-semibold">Great! You are now ready to design with AI.
-        Here’s your step-by-step guide to {{ currentFlow.title }}</h2>
+    <div v-else class="h-step flex  items-center col-span-6">
+      <div>
+
+        <h2 class="text-4xl font-semibold my-10">Great! You are now ready to design with AI <br>
+          Here’s your step-by-step guide to <span>{{ currentFlow.title }}</span></h2>
+        <div>
+          <UiButton primary>Get full report</UiButton>
+
+        </div>
+      </div>
     </div>
   </div>
 

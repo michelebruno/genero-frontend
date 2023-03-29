@@ -4,10 +4,7 @@
 </span>
 </template>
 
-<script>
-export default {
-  name: "Code"
-}
+<script setup>
 </script>
 
 <style scoped>

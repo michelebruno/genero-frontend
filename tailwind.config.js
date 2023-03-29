@@ -23,7 +23,10 @@ module.exports = {
             },
 
             colors: {
-                "primary": "var(--colors-primary)"
+                "primary": {
+                    DEFAULT: "var(--colors-primary)",
+                    light: "var(--colors-primary-light)",
+                },
             },
             dropShadow: {
                 "block-xs": "var(--drop-shadow-block-xs)",

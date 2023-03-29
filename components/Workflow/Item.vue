@@ -1,7 +1,8 @@
 <template>
-  <button :class="['block bg-white border-r rounded-xl border border-black px-4 py-2', selected && '!border-primary']"
+  <button :class="['block bg-white border-r border border-black px-4 py-2 w-full text-left', selected && '!border-primary']"
        @click="workflowStore.setSelectedItem(_id)">
     <h3 class="font-bold">{{shortTitle || title }}</h3>
+    <p v-if="description">{{description}}</p>
   </button>
 </template>
 

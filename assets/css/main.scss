@@ -26,8 +26,11 @@ $variables: (
         ),
         'colors': (
                 "primary": (
-                        "default": "#FF5D48",
-                )
+                        "default": "rgba(255 93 72 / var(--tw-bg-opacity))",
+                ),
+                "primary-light": (
+                        "default": "rgba(255 247 245 / var(--tw-bg-opacity))",
+                ),
         ),
         'drop-shadow': (
                 "block-xs" : (
@@ -83,7 +86,7 @@ $variables: (
   @font-face {
     font-family: "PP NeueBit";
     src: //local("PP NeueBit"),
-    url("~/assets/fonts/PPNeueBit-Regular.woff") format("woff"),
+            url("~/assets/fonts/PPNeueBit-Regular.woff") format("woff"),
   }
   @font-face {
     font-family: "PP NeueBit";

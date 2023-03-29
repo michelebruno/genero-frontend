@@ -177,6 +177,30 @@ export interface Flow extends SanityDocument {
   steps?: Array<SanityKeyedReference<Step>>;
 
   /**
+   * Cover — `image`
+   *
+   *
+   */
+  coverImg?: {
+    _type: "image";
+    asset: SanityReference<SanityImageAsset>;
+    crop?: SanityImageCrop;
+    hotspot?: SanityImageHotspot;
+  };
+
+  /**
+   * Network — `image`
+   *
+   *
+   */
+  networkImg?: {
+    _type: "image";
+    asset: SanityReference<SanityImageAsset>;
+    crop?: SanityImageCrop;
+    hotspot?: SanityImageHotspot;
+  };
+
+  /**
    * inputs — `array`
    *
    *
