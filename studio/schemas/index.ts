@@ -67,88 +67,6 @@ export default [
   }),
 
   defineType({
-    name: 'input',
-    title: 'Input',
-    type: "document",
-    fields: [
-      defineField({
-        name: 'title',
-        type: 'string',
-        title: 'Title'
-      })
-    ]
-  }),
-  defineType({
-    name: 'topic',
-    title: 'Topic',
-    type: "document",
-    fields: [
-      defineField({
-        name: 'title',
-        type: 'string',
-        title: 'Title'
-      })
-    ]
-  }),
-  defineType({
-    name: 'item',
-    type: 'document',
-    fields: [
-      defineField({
-        name: 'title',
-        type: 'string',
-        title: "Title"
-      }),
-      defineField({
-        name: 'shortTitle',
-        type: 'string',
-        title: "Titolo breve"
-      }),
-      defineField({
-        name: 'slug',
-        type: 'slug',
-        title: "Slug",
-        options: {
-          source: 'title'
-        },
-        validation: R => R.required()
-      }),
-      defineField({
-        name: 'description',
-        type: 'string',
-        title: "Description"
-      }),
-      defineField({
-        name: 'content',
-        type: 'content',
-        title: "Content"
-      }),
-      defineField({
-        name: 'showIf',
-        title: "Requires",
-        type: 'array',
-        of: [{
-          type: 'reference',
-          to: [{
-            type: 'item'
-          }]
-        }]
-
-      }),
-      defineField({
-        name: 'hiddenIf',
-        title: "Nascondi se",
-        type: 'array',
-        of: [{
-          type: 'reference',
-          to: [{
-            type: 'item'
-          }]
-        }]
-      }),
-    ]
-  }),
-  defineType({
     title: "Flow",
     type: 'document',
     name: 'flow',
@@ -242,8 +160,8 @@ export default [
     ]
   }),
   defineType({
-    type: 'document',
     name: 'step',
+    type: 'document',
     title: "Step",
     preview: {
       select: {
@@ -309,7 +227,7 @@ export default [
       defineField({
         type: 'array',
         name: 'items',
-        hidden: hideIf('know'),
+        hidden: hideIf('text'),
         of: [
           {
             type: 'reference', to: [{type: 'item'}]
@@ -320,7 +238,7 @@ export default [
         name: 'showIf',
         title: "Requires",
         type: 'array',
-        hidden: hideIf('know'),
+        hidden: hideIf('text'),
         of: [{
           type: 'reference',
           to: [{
@@ -342,10 +260,93 @@ export default [
       }),
     ]
   }),
+  defineType({
+    name: 'item',
+    type: 'document',
+    fields: [
+      defineField({
+        name: 'title',
+        type: 'string',
+        title: "Title"
+      }),
+      defineField({
+        name: 'shortTitle',
+        type: 'string',
+        title: "Titolo breve"
+      }),
+      defineField({
+        name: 'slug',
+        type: 'slug',
+        title: "Slug",
+        options: {
+          source: 'title'
+        },
+        validation: R => R.required()
+      }),
+      defineField({
+        name: 'description',
+        type: 'string',
+        title: "Description"
+      }),
+      defineField({
+        name: 'content',
+        type: 'content',
+        title: "Content"
+      }),
+      defineField({
+        name: 'showIf',
+        title: "Requires",
+        type: 'array',
+        of: [{
+          type: 'reference',
+          to: [{
+            type: 'item'
+          }]
+        }]
+
+      }),
+      defineField({
+        name: 'hiddenIf',
+        title: "Nascondi se",
+        type: 'array',
+        of: [{
+          type: 'reference',
+          to: [{
+            type: 'item'
+          }]
+        }]
+      }),
+    ]
+  }),
 
   defineType({
-    type: 'document',
+    name: 'input',
+    title: 'Input',
+    type: "document",
+    fields: [
+      defineField({
+        name: 'title',
+        type: 'string',
+        title: 'Title'
+      })
+    ]
+  }),
+  defineType({
+    name: 'topic',
+    title: 'Topic',
+    type: "document",
+    fields: [
+      defineField({
+        name: 'title',
+        type: 'string',
+        title: 'Title'
+      })
+    ]
+  }),
+
+  defineType({
     name: 'field',
+    type: 'document',
     title: 'Dominio',
     fields: [
       defineField({

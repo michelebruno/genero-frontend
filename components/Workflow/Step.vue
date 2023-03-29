@@ -11,7 +11,7 @@
 
 
         <div class="text-lg mb-8">
-          <SanityContent :blocks="step.content"></SanityContent>
+          <SanityContent :blocks="step.content" :serializers="serializers"></SanityContent>
         </div>
 
         <div v-if="step.type === 'choose' || !step.type" class="grid grid-cols-9 gap-10">

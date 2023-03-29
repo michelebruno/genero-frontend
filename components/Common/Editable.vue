@@ -7,13 +7,23 @@
 import {useWorkflowsStore} from "../../store/workflows";
 import {storeToRefs} from "pinia";
 
+
+
+
 const workflowsStore = useWorkflowsStore()
 const {editableFields} = storeToRefs(workflowsStore)
 const {id} = defineProps(['id'])
 
 const slots = useSlots()
 
-const defaultValue = slots.default()[0].children
+
+function sostituisciVariabili(testo, obj) {
+  return testo.replace(/\{\{(\w+)\}\}/g, function(match, nomeVariabile) {
+    return editableFields.value.has(nomeVariabile) ? editableFields.value.get(nomeVariabile) : match;
+  });
+}
+
+const defaultValue = sostituisciVariabili(slots.default()[0].children)
 
 if (!editableFields.value.has(id)) {
   editableFields.value.set(id, defaultValue)
