@@ -206,9 +206,14 @@ export default [
         options: {
           layout: "radio",
           list: [
-            'choose', 'text', 'know'
+            'choose', 'text', 'know', 'section'
           ]
         }
+      }),
+      defineField({
+        name: 'image',
+        type:'image',
+        name:'Illustrazione'
       }),
       defineField({
         name: 'note',

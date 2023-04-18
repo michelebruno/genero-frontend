@@ -1,7 +1,7 @@
 <template>
   <component is="button"
              :class="['border p-2 border-primary', primary && ' hover:bg-primary hover:bg-opacity-50',
-             disabled && 'opacity-50']" :disabled="disabled"
+             disabled && 'opacity-50 !text-gray']" :disabled="disabled"
   >
     <slot/>
   </component>

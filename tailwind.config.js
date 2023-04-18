@@ -4,6 +4,7 @@ module.exports = {
         "./components/**/*.{js,vue,ts}",
         "./layouts/**/*.vue",
         "./pages/**/*.vue",
+        "./pages/*.vue",
         "./plugins/**/*.{js,ts}",
         "./nuxt.config.{js,ts}",
         "./app.vue",
@@ -22,6 +23,13 @@ module.exports = {
                 )
             },
 
+            fontSize: {
+                "fix-mono": ['1.5em', .6],
+
+                ...Object.fromEntries(
+                    ['lead', 'display-1','display-2'].map(s => [s,[ `var(--font-size-${s})`,`var(--leading-${s}, 1.15)`, ]])
+                )
+            },
             colors: {
                 "primary": {
                     DEFAULT: "var(--colors-primary)",
@@ -38,6 +46,9 @@ module.exports = {
             }
         },
     },
-    plugins: [],
+
+    plugins: [
+        require('@tailwindcss/typography'),
+    ],
 }
 

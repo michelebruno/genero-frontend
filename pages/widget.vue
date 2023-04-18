@@ -11,36 +11,29 @@
     </select>
   </div>
 
-  <div v-if="status==='onboarding'" class="min-h-screen bg-gray-300 p-10 grid grid-cols-12 gap-10">
+  <div class="flex-col flex-wrap p-8 min-h-0 ">
 
-    <div class="col-span-6">
-      <h3 class="font-mono text-primary font-bold uppercase">Discover how to</h3>
-      <h1 class="text-5xl font-semibold">{{ currentFlow.title }}</h1>
-      <div>
-        <UiButton @click="status = 'started'">Start exploring</UiButton>
-      </div>
+    <div id="slide-wrapper" class="h-step relative">
+      <Transition name="slide">
+        <div v-if="status==='onboarding'" class=" border border-primary bg-primary-light p-10 grid grid-cols-12 gap-10">
 
-      <SanityImage v-if="currentFlow.networkImg" :asset-id="currentFlow.networkImg?.asset?._ref" class="my-8" />
-    </div>
+          <div class="col-span-6">
+            <h1 class="text-5xl font-bold font-mono "><span class="text-fix-mono ">{{ currentFlow.title }}</span></h1>
+            <div>
+              <UiButton @click="status = 'started'">Start exploring</UiButton>
+            </div>
 
-  </div>
-  <div v-else class="grid grid-cols-12 gap-x-10 p-10 ">
-
-    <div class="col-span-2 h-step -ml-10 bg-gray-500 rounded-r-2xl">
-
-    </div>
-
-    <WorkflowStep v-if="status === 'started'" :step="currentStep" :key="currentStep?._id" class="col-span-9"/>
-    <div v-else class="h-step flex  items-center col-span-6">
-      <div>
-
-        <h2 class="text-4xl font-semibold my-10">Great! You are now ready to design with AI <br>
-          Here’s your step-by-step guide to <span>{{ currentFlow.title }}</span></h2>
-        <div>
-          <UiButton primary>Get full report</UiButton>
+            <SanityImage v-if="currentFlow.networkImg" :asset-id="currentFlow.networkImg?.asset?._ref" class="my-8"/>
+          </div>
 
         </div>
-      </div>
+
+        <WorkflowStep v-else :step="currentStep" :key="currentStep?._id" class="col-span-12 flex-1"/>
+      </Transition>
+
+    </div>
+    <div class="w-full flex-shrink">
+      <WorkflowBottomBar/>
     </div>
   </div>
 
@@ -79,9 +72,23 @@ const currentFlowId = computed({
 </script>
 
 <style scoped>
+/* we will explain what these classes do next! */
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 0.5s ease;
+}
 
-#widget {
+.slide-enter-from {
+  transform: translateX(100vw);
+}
 
+.slide-leave-to {
+  transform: translateX(-100vw);
+}
+
+#slide-wrapper > div {
+  position: absolute;
+  inset: 0;
 }
 
 </style>

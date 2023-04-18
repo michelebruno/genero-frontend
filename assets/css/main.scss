@@ -10,15 +10,15 @@ $variables: (
         'spacing': (
                 "sm": (
                         "default": "12px",
-                        "md":"24px"
+                        "md":"15px"
                 ),
                 "md": (
                         "default": "16px",
-                        "md":"24px"
+                        "md":"30px"
                 ),
                 "lg": (
                         "default": "18px",
-                        "md":"28px"
+                        "md":"60px"
                 ),
                 "step": (
                         "default" :"80vh"
@@ -26,10 +26,10 @@ $variables: (
         ),
         'colors': (
                 "primary": (
-                        "default": "rgba(255 93 72 / var(--tw-bg-opacity))",
+                        "default": "rgba(25, 101, 254, var(--tw-bg-opacity, 1))",
                 ),
                 "primary-light": (
-                        "default": "rgba(255 247 245 / var(--tw-bg-opacity))",
+                        "default": "rgba(255 247 245 / var(--tw-bg-opacity, 1))",
                 ),
         ),
         'drop-shadow': (
@@ -44,6 +44,17 @@ $variables: (
                 ),
                 "block-lg" : (
                         "default": "12px 12px 0 var(--tw-shadow-color)"
+                ),
+        ),
+        "font-size": (
+                "lead" : (
+                        "default": "24px"
+                ),
+                "display-1" : (
+                        "default": "120px"
+                ),
+                "display-2" : (
+                        "default": "66px"
                 ),
         )
 );

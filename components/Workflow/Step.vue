@@ -1,95 +1,76 @@
 <template>
 
-  <div class="">
-    <div class="h-step py-10 flex flex-col justify-between">
-      <div v-if="!step.type || step.type === 'choose' || step.type === 'know'">
+  <div class="border-primary border-2 p-md grid grid-cols-12 h-full " v-if="step.type === 'choose'">
+    <div class="col-span-6 col-start-4 text-center">
+      <h2 class="text-7xl font-bold mb-sm">{{ step.title }}</h2>
+      <div class="prose prose-p:text-xl prose-p:my-0 max-w-full">
+        <SanityContent :blocks="step.content"/>
+      </div>
+    </div>
 
-        <CommonCode class="text-xl">Step #{{ currentStepIndex + 1 }}</CommonCode>
-        <h2 class="text-4xl font-semibold mb-4">
-          {{ step.title }}
-        </h2>
+    <div class="col-span-12">
+      <div class="bg-white border-2 border-primary">
 
+        <div class="bg-primary text-white px-md py-sm">
 
-        <div class="text-lg mb-8">
-          <SanityContent :blocks="step.content" :serializers="serializers"></SanityContent>
-        </div>
-
-        <div v-if="step.type === 'choose' || !step.type" class="grid grid-cols-9 gap-10">
-          <Transition name="slide-fade">
-            <div v-if="selectedItem" class="col-span-6 my-12   bg-primary-light">
-              <h3 class="font-bold text-3xl mb-3  whitespace-pre-line">
-                {{ selectedItem.title }}
-                <button class="font-mono text-gray-500" @click="unselectItem">X</button>
-              </h3>
-              <div v-if="selectedItem.content && selectedItem.content.length" class="">
-                <SanityContent :blocks="selectedItem?.content" :serializers="serializers"/>
-
-              </div>
-              <div v-else>
-                <CommonCode>Nessuna descrizione per questo item.</CommonCode>
-              </div>
-
-            </div>
-
-            <div class="my-12 col-span-6 xl:col-span-3" v-else>
-              <CommonCode>
-                Select an option
-              </CommonCode>
-              <WorkflowItem v-for="item in step.items" v-bind="getItem(item)" class="mt-6 "/>
-            </div>
-          </Transition>
+          <h3 class="font-mono text-fix-mono font-bold mb-sm uppercase !mb-0">
+            CHOOSE ONE OF THESE METHODS
+          </h3>
 
         </div>
-        <div v-else-if="step.type === 'know'">
-
-          <template v-for="item in step.items">
-            <UiAccordion :title="getItem(item).title">
-              <SanityContent :blocks="getItem(item).content" :serializers="serializers"></SanityContent>
-            </UiAccordion>
-
-          </template>
-
+        <div class="flex gap-x-md p-md">
+          <WorkflowItem v-for="item in step.items" v-bind="getItem(item)"/>
         </div>
       </div>
 
-      <template v-else-if="step.type === 'text'">
-        <div></div>
+    </div>
+  </div>
+  <div v-else-if="step.type === 'text'" class="border-primary border-2 p-lg grid grid-cols-12 h-full ">
+    <div class="col-span-10 col-start-2 self-center">
+      <div class="prose prose-p:font-semibold prose-p:text-display-2 text-center max-w-full text-black prose-p:my-0">
+        <SanityContent :blocks="step.content" :serializers="serializers"/>
+      </div>
+    </div>
+  </div>
+  <div v-else-if="step.type === 'section'" class="h-full flex items-end px-lg bg-primary text-white pb-lg">
 
-        <div class="grid grid-cols-9 gap-10">
+    <div class="grid auto-rows-min grid-cols-12">
 
-          <div class="font-semibold text-3xl col-span-6">
-            <SanityContent :blocks="step.content" :serializers="serializers"/>
-          </div>
-        </div>
-      </template>
-      <div class="flex justify-between w-full">
-        <div>
-
-          <button v-if="currentStepIndex !== 0 || selectedItem"
-                  :class="['border p-2 border-primary aspect-square inline-block' ]"
-                  @click="prevStep">←
-          </button>
-        </div>
-        <UiButton
-            :title='canMoveOn ? "Select an item to go on" : undefined ' primary
-            :disabled="!canMoveOn" @click="nextStep">Next →
-        </UiButton>
+      <div class="text-xl col-span-2">
+        <p class="font-mono text-fix-mono">01</p>
+      </div>
+      <h2 class="text-display-1 font-semibold col-span-12">
+        {{ step.title }}
+      </h2>
+      <div class="text-lead col-span-6">
+        <SanityContent :blocks="step.content"></SanityContent>
       </div>
     </div>
 
   </div>
+  <div v-else-if="step.type === 'know'" class="bg-primary flex w-full items-center justify-center">
+    <div class="border-black border-2">
+      <div class="bg-black text-white pr-md"><h3 class="font-mono text-fix-mono uppercase">Optional steps you could use</h3></div>
+      <div>
+        <div v-for="item in step.items">
+          <h4>{{item.title}}</h4>
+        </div>
+      </div>
+    </div>
 
+
+  </div>
+  <div v-else> {{ step.type }}</div>
 </template>
 
 <script setup lang="ts">
 import {Step} from '../../types'
 import {useWorkflowsStore} from "~/store/workflows";
 import {storeToRefs} from "pinia";
-import {PortableTextMarkDefinition} from "@portabletext/types";
 import {resolveComponent} from "#imports";
 
 const workflowsStore = useWorkflowsStore()
-const {getItem, nextStep, flows, setCurrentFlow, currentStepIndex} = workflowsStore
+const {getItem} = workflowsStore
 const {selectedItem, canMoveOn} = storeToRefs(workflowsStore)
 const {step} = defineProps<{ step: Step }>()
 

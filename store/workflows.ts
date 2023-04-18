@@ -17,9 +17,11 @@ export const useWorkflowsStore = defineStore('workflows', {
     selectedItem: null as Item | null,
     currentFlow: null as null | Flow,
     flow: null,
+    prevSteps: [] as Step[],
+    nextSteps: [] as Step[],
     status: 'onboarding' as 'onboarding' | 'started' | 'final',
     currentStepIndex: 0,
-    editableFields: new Map<string,string>()
+    editableFields: new Map<string, string>()
   }),
   getters: {
     canMoveOn: ({currentStep, ...s}) => {
@@ -36,7 +38,14 @@ export const useWorkflowsStore = defineStore('workflows', {
 
       const id = s.currentFlow?.steps[s.currentStepIndex]?._ref
 
-      return s.steps.get(id)
+
+      const curr = s.steps.get(id) || {}
+
+      return {
+        ...curr,
+        items: curr.items?.map(i => s.getItem(i)) || []
+      }
+
     },
     hasItems: (s): boolean => s?.currentStep?.items?.length,
     isLastStep(s): boolean {
