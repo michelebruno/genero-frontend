@@ -37,96 +37,6 @@ export type {
 };
 
 /**
- * Input
- *
- *
- */
-export interface Input extends SanityDocument {
-  _type: "input";
-
-  /**
-   * Title — `string`
-   *
-   *
-   */
-  title?: string;
-}
-
-/**
- * Topic
- *
- *
- */
-export interface Topic extends SanityDocument {
-  _type: "topic";
-
-  /**
-   * Title — `string`
-   *
-   *
-   */
-  title?: string;
-}
-
-/**
- * item
- *
- *
- */
-export interface Item extends SanityDocument {
-  _type: "item";
-
-  /**
-   * Title — `string`
-   *
-   *
-   */
-  title?: string;
-
-  /**
-   * Titolo breve — `string`
-   *
-   *
-   */
-  shortTitle?: string;
-
-  /**
-   * Slug — `slug`
-   *
-   *
-   */
-  slug?: { _type: "slug"; current: string };
-
-  /**
-   * Description — `string`
-   *
-   *
-   */
-  description?: string;
-
-  /**
-   * Content — `content`
-   *
-   *
-   */
-  content?: Content;
-
-  /**
-   * Requires — `array`
-   *
-   *
-   */
-  showIf?: Array<SanityKeyedReference<Item>>;
-
-  /**
-   * Nascondi se — `array`
-   *
-   *
-   */
-  hiddenIf?: Array<SanityKeyedReference<Item>>;
-}
-
-/**
  * Flow
  *
  *
@@ -231,13 +141,6 @@ export interface Step extends SanityDocument {
   title?: string;
 
   /**
-   * Description — `string`
-   *
-   *
-   */
-  description?: string;
-
-  /**
    * Description — `content`
    *
    *
@@ -249,7 +152,19 @@ export interface Step extends SanityDocument {
    *
    *
    */
-  type?: "choose" | "text" | "know";
+  type?: "choose" | "text" | "know" | "section";
+
+  /**
+   * Illustrazione — `image`
+   *
+   *
+   */
+  Illustrazione?: {
+    _type: "image";
+    asset: SanityReference<SanityImageAsset>;
+    crop?: SanityImageCrop;
+    hotspot?: SanityImageHotspot;
+  };
 
   /**
    * Note (interne) — `string`
@@ -288,6 +203,96 @@ export interface Step extends SanityDocument {
 }
 
 /**
+ * item
+ *
+ *
+ */
+export interface Item extends SanityDocument {
+  _type: "item";
+
+  /**
+   * Title — `string`
+   *
+   *
+   */
+  title?: string;
+
+  /**
+   * Titolo breve — `string`
+   *
+   *
+   */
+  shortTitle?: string;
+
+  /**
+   * Slug — `slug`
+   *
+   *
+   */
+  slug?: { _type: "slug"; current: string };
+
+  /**
+   * Description — `string`
+   *
+   *
+   */
+  description?: string;
+
+  /**
+   * Content — `content`
+   *
+   *
+   */
+  content?: Content;
+
+  /**
+   * Requires — `array`
+   *
+   *
+   */
+  showIf?: Array<SanityKeyedReference<Item>>;
+
+  /**
+   * Nascondi se — `array`
+   *
+   *
+   */
+  hiddenIf?: Array<SanityKeyedReference<Item>>;
+}
+
+/**
+ * Input
+ *
+ *
+ */
+export interface Input extends SanityDocument {
+  _type: "input";
+
+  /**
+   * Title — `string`
+   *
+   *
+   */
+  title?: string;
+}
+
+/**
+ * Topic
+ *
+ *
+ */
+export interface Topic extends SanityDocument {
+  _type: "topic";
+
+  /**
+   * Title — `string`
+   *
+   *
+   */
+  title?: string;
+}
+
+/**
  * Dominio
  *
  *
@@ -305,4 +310,4 @@ export interface Field extends SanityDocument {
 
 export type Content = Array<SanityKeyed<SanityBlock>>;
 
-export type Documents = Input | Topic | Item | Flow | Step | Field;
+export type Documents = Flow | Step | Item | Input | Topic | Field;

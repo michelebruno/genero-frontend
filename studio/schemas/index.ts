@@ -206,7 +206,7 @@ export default [
         options: {
           layout: "radio",
           list: [
-            'choose', 'text', 'know', 'section'
+            'choose', 'text', 'know', 'section', 'options'
           ]
         }
       }),

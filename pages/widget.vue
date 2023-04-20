@@ -1,10 +1,10 @@
 <template>
   <div class="relative z-10">
     <select @change="handleWorkflowChange" v-model="currentFlowId">
-      <optgroup :label="topic.title" v-for="topic in topics">
+      <optgroup :label="topic?.title" v-for="topic in topics">
         <option v-for="flow in flows.filter(t => t.topics?.map( t => t._ref).includes(topic._id))"
                 :value="flow._id" :key="flow._id">
-          {{ flow.title }}
+          {{ flow?.title }}
         </option>
       </optgroup>
 
@@ -18,17 +18,17 @@
         <div v-if="status==='onboarding'" class=" border border-primary bg-primary-light p-10 grid grid-cols-12 gap-10">
 
           <div class="col-span-6">
-            <h1 class="text-5xl font-bold font-mono "><span class="text-fix-mono ">{{ currentFlow.title }}</span></h1>
+            <h1 class="text-5xl font-bold font-mono "><span class="text-fix-mono ">{{ currentFlow?.title }}</span></h1>
             <div>
               <UiButton @click="status = 'started'">Start exploring</UiButton>
             </div>
 
-            <SanityImage v-if="currentFlow.networkImg" :asset-id="currentFlow.networkImg?.asset?._ref" class="my-8"/>
+            <SanityImage v-if="currentFlow?.networkImg" :asset-id="currentFlow?.networkImg?.asset?._ref" class="my-8"/>
           </div>
 
         </div>
 
-        <WorkflowStep v-else :step="currentStep" :key="currentStep?._id" class="col-span-12 flex-1"/>
+        <WorkflowStep v-else :step="workflowsStore.currentStep" :key="workflowsStore.currentStep?._id" class="col-span-12 flex-1"/>
       </Transition>
 
     </div>
@@ -43,29 +43,28 @@
 import {useWorkflowsStore} from "~/store/workflows";
 import {storeToRefs} from "pinia";
 import _ from 'lodash'
-import {computed} from "#imports";
 
 
 const workflowsStore = useWorkflowsStore()
 const {getItem, flows, setCurrentFlow} = workflowsStore
 const {
   canMoveOn,
-  currentStep,
-  currentFlow,
-  currentStepIndex,
+    currentFlow,
   topics,
   status,
-  hasItems,
-  isLastStep
 } = storeToRefs(workflowsStore)
+
+
 
 function handleWorkflowChange(e: Event) {
   setCurrentFlow(e.target?.value)
 }
 
-
 const currentFlowId = computed({
-  get: () => currentFlow.value?._id,
+  get: () => {
+    console.log("getting id")
+    return currentFlow.value?._id
+  },
   setter: (value) => setCurrentFlow(value)
 })
 

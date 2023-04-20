@@ -1,6 +1,6 @@
 <template>
 
-  <div class="border-primary border-2 p-md grid grid-cols-12 h-full " v-if="step.type === 'choose'">
+  <div class="border-primary border-2 p-md grid grid-cols-12 h-full pt-lg" v-if="step.type === 'choose'">
     <div class="col-span-6 col-start-4 text-center">
       <h2 class="text-7xl font-bold mb-sm">{{ step.title }}</h2>
       <div class="prose prose-p:text-xl prose-p:my-0 max-w-full">
@@ -9,20 +9,19 @@
     </div>
 
     <div class="col-span-12">
-      <div class="bg-white border-2 border-primary">
+      <div class="bg-white border-2 border-primary max-w-screen-lg mx-auto">
 
         <div class="bg-primary text-white px-md py-sm">
 
           <h3 class="font-mono text-fix-mono font-bold mb-sm uppercase !mb-0">
-            CHOOSE ONE OF THESE METHODS
+            CHOOSE ONE OF THESE METHODS <span class="text-red-600">*</span>
           </h3>
 
         </div>
         <div class="flex gap-x-md p-md">
-          <WorkflowItem v-for="item in step.items" v-bind="getItem(item)"/>
+          <WorkflowItem v-for="item in step.items" v-bind="item"/>
         </div>
       </div>
-
     </div>
   </div>
   <div v-else-if="step.type === 'text'" class="border-primary border-2 p-lg grid grid-cols-12 h-full ">
@@ -48,13 +47,13 @@
     </div>
 
   </div>
-  <div v-else-if="step.type === 'know'" class="bg-primary flex w-full items-center justify-center">
-    <div class="border-black border-2">
-      <div class="bg-black text-white pr-md"><h3 class="font-mono text-fix-mono uppercase">Optional steps you could use</h3></div>
+  <div v-else-if="step.type === 'options'" class="bg-primary flex w-full items-center justify-center">
+    <div class="border-black border-2 max-w-screen-md w-full mx-auto">
+      <div class="bg-black text-white pr-md">
+        <h3 class="font-mono text-fix-mono uppercase">Optional steps you could
+          use</h3></div>
       <div>
-        <div v-for="item in step.items">
-          <h4>{{item.title}}</h4>
-        </div>
+        <WorkflowAccordion v-for="item in step.items" :title="item.title" :content="item.content"/>
       </div>
     </div>
 
@@ -70,7 +69,6 @@ import {storeToRefs} from "pinia";
 import {resolveComponent} from "#imports";
 
 const workflowsStore = useWorkflowsStore()
-const {getItem} = workflowsStore
 const {selectedItem, canMoveOn} = storeToRefs(workflowsStore)
 const {step} = defineProps<{ step: Step }>()
 

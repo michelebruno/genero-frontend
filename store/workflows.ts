@@ -1,6 +1,7 @@
 import {defineStore} from 'pinia'
 import {Flow, Input, Item, Step, Topic} from "~/studio/schema";
 import {SanityDocument, SanityReference} from "@sanity/client";
+import _ from "lodash";
 
 // You can name the return value of `defineStore()` anything you want,
 // but it's best to use the name of the store and surround it with `use`
@@ -15,13 +16,14 @@ export const useWorkflowsStore = defineStore('workflows', {
     topics: [] as Topic[],
     active: null,
     selectedItem: null as Item | null,
+    showModal: false,
     currentFlow: null as null | Flow,
     flow: null,
     prevSteps: [] as Step[],
     nextSteps: [] as Step[],
     status: 'onboarding' as 'onboarding' | 'started' | 'final',
     currentStepIndex: 0,
-    editableFields: new Map<string, string>()
+    editableFields: new Map<string, string>(),
   }),
   getters: {
     canMoveOn: ({currentStep, ...s}) => {
@@ -34,12 +36,11 @@ export const useWorkflowsStore = defineStore('workflows', {
     },
     currentStep: (s): Step | undefined => {
 
-      if (typeof s.currentStepIndex !== 'number' || !s.currentFlow?.steps) return null;
+      if (typeof s.nextSteps === 'undefined') return false;
 
       const id = s.currentFlow?.steps[s.currentStepIndex]?._ref
 
-
-      const curr = s.steps.get(id) || {}
+      const curr = s.nextSteps[0]
 
       return {
         ...curr,
@@ -60,6 +61,7 @@ export const useWorkflowsStore = defineStore('workflows', {
       this.selectedItem = this.getItem(value)
     },
     setCurrentFlow(flow: string | SanityDocument | undefined = undefined) {
+
       if (!flow) {
         this.currentFlow = this.flows[0]
       } else if (typeof flow === 'string') {
@@ -70,20 +72,47 @@ export const useWorkflowsStore = defineStore('workflows', {
         this.currentFlow = flow
       }
 
+      this.nextSteps = this.currentFlow.steps.map(step => {
+        const s = this.getStep(step)
+        return ({
+          ...s,
+          items: s.items?.map(i => this.getItem(i)) || []
+        })
+      })
       this.currentStepIndex = 0
     },
-    prevStep() {
-      this.currentStepIndex -= 1;
+    goBack() {
+
+      const p = this.prevSteps.pop()
+
+      this.nextSteps = [p, ...this.nextSteps]
+
+      this.selectedItem = null;
+
+      this.showModal = false;
+
       this.selectedItem = null
     },
-    nextStep() {
+    goNext() {
       if (this.isLastStep) {
         this.status = 'final'
         this.selectedItem = null
 
+      } else if (this.currentStep?.type === 'choose' && this.currentStep?.items && !this.showModal) {
+        this.showModal = true
       } else {
-        this.currentStepIndex += 1;
-        this.selectedItem = null
+
+        const curr = _.head(this.nextSteps)
+
+        this.nextSteps = _.drop(this.nextSteps)
+
+        this.prevSteps = [...this.prevSteps, curr]
+
+        this.selectedItem = null;
+
+        this.showModal = false;
+
+        return true;
       }
 
     },
@@ -103,6 +132,24 @@ export const useWorkflowsStore = defineStore('workflows', {
       }
 
       return this.items.find(i => i._id === id) || null
+
+    },
+    getStep(value: Step | string | SanityReference) {
+      if (!value) {
+        return null;
+      }
+
+      let id: string;
+
+      if (typeof value === 'string') {
+        id = value
+      } else if (value._ref) {
+        id = value._ref
+      } else {
+        id = value._id
+      }
+
+      return this.steps.get(id) || null
 
     },
     async fetchData() {
