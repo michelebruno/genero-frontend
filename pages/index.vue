@@ -6,16 +6,45 @@
       generative AI
     </span> and share your learnings
     </h1>
-    <NuxtLink to="/widget">
-      <UiButton primary>Open workflows </UiButton>
+    <NuxtLink :to="$genero.getWorkflowLink(featuredFlows[0])">
+      <UiButton is="a" primary>Open workflows</UiButton>
 
     </NuxtLink>
+  </div>
+
+  <div class="py-xl">
+    <h2 id="featured-workflows" class="font-mono">
+      <span>Featured</span>
+      <span>Worfklows</span>
+    </h2>
   </div>
 </template>
 
 <script setup lang="ts">
+
+import {useWorkflowsStore} from "~/store/workflows";
+
+const workflowStore = useWorkflowsStore()
+
+const featuredFlows = ref(['generate-visual-assets-for-your-brand', 'draw-an-illustration-from-draft'].map(s => workflowStore.getWorkflow(s)))
+
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+
+#featured-workflows {
+  @apply font-bold uppercase text-primary;
+
+  font-size: 20vw;
+  line-height: 0.6em;
+
+  span {
+    display: block;
+
+    &:nth-child(2) {
+      text-align: right;
+    }
+  }
+}
 
 </style>

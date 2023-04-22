@@ -1,8 +1,15 @@
 <template>
   <div class="relative">
 
-    <nav v-if="isWorkflow" class="px-md">
-
+    <nav v-if="isWorkflow" >
+      <div id="logo-wrapper">
+        <GeneroLogo/>
+      </div>
+    </nav>
+    <nav v-else >
+      <div id="logo-wrapper">
+        <GeneroLogo/>
+      </div>
     </nav>
     <NuxtPage/>
 
@@ -13,11 +20,14 @@
 </template>
 
 <script setup>
-const isWorkflow = ref(true)
+
+const route = useRoute();
+
+const isWorkflow = !!route.params.slug
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 #noise-wrapper {
   inset: 0;
 
@@ -25,9 +35,8 @@ const isWorkflow = ref(true)
   width: 100%;
   height: 100vh;
   position: fixed;
-  top: 0px;
-  left: 0px;
-  pointer-events: none;
+  top: 0;
+  left: 0;
   z-index: 1000000;
 }
 
@@ -66,5 +75,17 @@ const isWorkflow = ref(true)
   90% {
     transform: translate(-1rem, 7rem);
   }
+}
+
+#logo-wrapper {
+  @apply h-6 w-auto;
+
+  svg {
+    @apply block h-full w-auto
+  }
+}
+
+nav {
+  @apply py-sm px-md flex w-full justify-between
 }
 </style>

@@ -8,12 +8,12 @@
 </template>
 
 <script setup lang="ts">
-type ButtonProps =  {
+type ButtonProps = {
   primary?: Boolean,
   disabled?: Boolean,
 }
 
-const {primary,disabled} = defineProps<ButtonProps>()
+const {primary, disabled} = defineProps<ButtonProps>()
 </script>
 
 <style scoped>

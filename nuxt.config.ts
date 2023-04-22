@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     },
   },
   css: ['~/assets/css/main.scss'],
-
+  buildModules: ["@nuxtjs/svg"],
   modules: [
     '@pinia/nuxt',
     '@nuxtjs/sanity',

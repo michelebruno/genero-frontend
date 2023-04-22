@@ -28,7 +28,8 @@
 
         </div>
 
-        <WorkflowStep v-else :step="workflowsStore.currentStep" :key="workflowsStore.currentStep?._id" class="col-span-12 flex-1"/>
+        <WorkflowStep v-else :step="workflowsStore.currentStep" :key="workflowsStore.currentStep?._id"
+                      class="col-span-12 flex-1"/>
       </Transition>
 
     </div>
@@ -42,19 +43,21 @@
 <script setup lang="ts">
 import {useWorkflowsStore} from "~/store/workflows";
 import {storeToRefs} from "pinia";
-import _ from 'lodash'
+import {definePageMeta} from "#imports";
 
 
 const workflowsStore = useWorkflowsStore()
 const {getItem, flows, setCurrentFlow} = workflowsStore
 const {
   canMoveOn,
-    currentFlow,
+  currentFlow,
   topics,
   status,
 } = storeToRefs(workflowsStore)
 
+const route = useRoute()
 
+workflowsStore.setCurrentFlow(route?.params?.slug)
 
 function handleWorkflowChange(e: Event) {
   setCurrentFlow(e.target?.value)
@@ -62,12 +65,24 @@ function handleWorkflowChange(e: Event) {
 
 const currentFlowId = computed({
   get: () => {
-    console.log("getting id")
     return currentFlow.value?._id
   },
   setter: (value) => setCurrentFlow(value)
 })
 
+
+definePageMeta({
+  validate({params}, store) {
+
+    const wfStore = useWorkflowsStore()
+
+    const {slug} = params;
+
+    const wf = wfStore.getWorkflow(slug)
+
+    return !!wf
+  }
+})
 </script>
 
 <style scoped>

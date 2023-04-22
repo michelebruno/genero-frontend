@@ -9,4 +9,8 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
     await workflowsStore.fetchData()
 
+    await workflowsStore.setCurrentFlow(route.params.slug)
+
+
 });
+

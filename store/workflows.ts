@@ -38,8 +38,6 @@ export const useWorkflowsStore = defineStore('workflows', {
 
       if (typeof s.nextSteps === 'undefined') return false;
 
-      const id = s.currentFlow?.steps[s.currentStepIndex]?._ref
-
       const curr = s.nextSteps[0]
 
       return {
@@ -80,6 +78,8 @@ export const useWorkflowsStore = defineStore('workflows', {
         })
       })
       this.currentStepIndex = 0
+
+      return this.currentFlow
     },
     goBack() {
 
@@ -152,6 +152,25 @@ export const useWorkflowsStore = defineStore('workflows', {
       return this.steps.get(id) || null
 
     },
+    getWorkflow(value: Flow | string | SanityReference) {
+      if (!value) {
+        return null;
+      }
+
+      let id: string;
+
+      if (typeof value === 'string') {
+        id = value
+      } else if (value._ref) {
+        id = value._ref
+      } else if (value._id) {
+        id = value._id
+      } else {
+        console.warn("Error parsing workflow id")
+        return false
+      }
+      return this.flows.find(i => ([i._id, i.slug?.current].includes(id))) || null
+    },
     async fetchData() {
       const query = groq`{
       'items':*[_type == "item"],
@@ -163,7 +182,7 @@ export const useWorkflowsStore = defineStore('workflows', {
 
       const res = await useSanityQuery(query);
 
-      const {data, error} = res
+      const {data} = res
 
       const {items, steps, flows, inputs, topics} = data.value
 
@@ -177,7 +196,6 @@ export const useWorkflowsStore = defineStore('workflows', {
         this.steps.set(step._id, step)
       }
 
-      this.setCurrentFlow("58d43c05-7d6e-45e6-a38b-95bdaced36c1");
       this.currentStepIndex = 0
     },
   },
