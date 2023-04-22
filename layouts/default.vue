@@ -10,6 +10,11 @@
       <div id="logo-wrapper">
         <GeneroLogo/>
       </div>
+      <div>
+        <NuxtLink to="/workflows">Workflows</NuxtLink>
+        <NuxtLink to="/tools">AI tools</NuxtLink>
+        <NuxtLink to="/glossary">Glossary</NuxtLink>
+      </div>
     </nav>
     <NuxtPage/>
 
