@@ -56,6 +56,11 @@ $variables: (
                 "display-2" : (
                         "default": "66px"
                 ),
+        ),
+        'transition-duration' : (
+                "default": (
+                        "default": 500ms
+                )
         )
 );
 

@@ -8,21 +8,23 @@
       </div>
     </div>
 
-    <div class="col-span-12" v-show="showModal">
-      <div class="bg-white border-2 border-primary max-w-screen-lg mx-auto">
+    <Transition name="modal">
+      <div class="col-span-12" v-show="showModal">
+        <div class="bg-white border-2 border-primary max-w-screen-lg mx-auto">
 
-        <div class="bg-primary text-white px-md py-sm">
+          <div class="bg-primary text-white px-md py-sm">
 
-          <h3 class="font-mono text-fix-mono font-bold mb-sm uppercase !mb-0">
-            CHOOSE ONE OF THESE METHODS <span class="text-red-600">*</span>
-          </h3>
+            <h3 class="font-mono text-fix-mono font-bold mb-sm uppercase !mb-0">
+              CHOOSE ONE OF THESE METHODS <span class="text-red-600">*</span>
+            </h3>
 
-        </div>
-        <div class="flex gap-x-md p-md">
-          <WorkflowItem v-for="item in step.items" v-bind="item"/>
+          </div>
+          <div class="flex gap-x-md p-md">
+            <WorkflowItem v-for="item in step.items" v-bind="item"/>
+          </div>
         </div>
       </div>
-    </div>
+    </Transition>
   </div>
   <div v-else-if="step.type === 'text'" class="border-primary border-2 p-lg grid grid-cols-12 h-full ">
     <div class="col-span-10 col-start-2 self-center">
@@ -31,7 +33,7 @@
       </div>
     </div>
   </div>
-  <div v-else-if="step.type === 'section'" class="h-full flex items-end bg-primary text-white pb-lg">
+  <div v-else-if="step.type === 'section'" class="h-full flex items-end text-white pb-lg">
 
     <div class="grid auto-rows-min grid-cols-12">
 
@@ -95,6 +97,16 @@ const serializers = {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+
+.modal-enter-active,
+.modal-leave-active {
+  transition: all 0.5s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  transform: translateY(100%);
+}
 
 </style>

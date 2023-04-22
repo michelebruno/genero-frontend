@@ -2,26 +2,37 @@
   <div class="flex gap-x-4 mt-4 h-[90px]">
     <UiButton class="block h-full aspect-square bg-white" @click="handlePrev">←</UiButton>
     <div class="flex-grow border-2 border-black bg-white">
-      <div class="flex gap-x-sm items-center justify-center h-full">
-        <div class="flex" v-if="prevStep">
-          <WorkflowPill>{{ prevStep.title }}</WorkflowPill>
+      <Transition appear name="stepper">
+        <div class="flex gap-x-sm items-center justify-center h-full" v-show="!['section'].includes(currentStep.type)">
+          <div class="flex" v-if="prevStep">
+            <WorkflowPill>{{ prevStep.title }}</WorkflowPill>
+          </div>
+          <div>
+            >
+          </div>
+          <div class="flex" v-if="prevStep">
+            <WorkflowPill>{{ currentStep.title }}</WorkflowPill>
+          </div>
+          <div>
+            >
+          </div>
+          <div class="flex">
+            <WorkflowPill type="next">Next step</WorkflowPill>
+          </div>
         </div>
-        <div>
-          >
-        </div>
-        <div class="flex">
-          <WorkflowPill>{{currentStep.title}}</WorkflowPill>
-        </div>
-        <div>
-          >
-        </div>
-        <div class="flex">
-          <WorkflowPill style="next">Next step</WorkflowPill>
-        </div>
-      </div>
+      </Transition>
     </div>
     <div class="flex bg-white">
-      <UiButton class="block h-full aspect-square" @click="handleNext" :disabled="isNextDisabled">Next</UiButton>
+      <UiButton class="block h-full aspect-square" @click="handleNext" primary :disabled="isNextDisabled"
+                :theme="status === 'started' && 'dark'  ">
+
+        {{
+          status === 'onboarding' ?
+              "Start"
+              : "Next"
+        }}
+
+      </UiButton>
     </div>
   </div>
 </template>
@@ -33,17 +44,18 @@ import {storeToRefs} from "pinia";
 
 const workflowsStore = useWorkflowsStore()
 const {getItem, goNext, goBack, flows, setCurrentFlow, currentStepIndex} = workflowsStore
-const {selectedItem, canMoveOn, prevSteps, nextSteps, showModal} = storeToRefs(workflowsStore)
+const {selectedItem, status, canMoveOn, prevSteps, nextSteps, showModal} = storeToRefs(workflowsStore)
 
 function handleNext() {
   goNext()
 }
+
 function handlePrev() {
   goBack()
 }
 
 
-const isNextDisabled = computed(()=>{
+const isNextDisabled = computed(() => {
   if (currentStep.type === 'choose' && !showModal) {
     return false
   }
@@ -66,6 +78,16 @@ const prevStep = computed(() => {
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+
+.stepper-enter-active,
+.stepper-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.stepper-enter-from,
+.stepper-leave-to {
+  opacity: 0;
+}
 
 </style>

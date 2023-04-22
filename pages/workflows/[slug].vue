@@ -3,26 +3,33 @@
   <div class="w-full flex flex-col flex-wrap p-8 pt-0 min-h-0 ">
 
     <div id="slide-wrapper" class="h-step relative">
-      <Transition name="slide">
-        <div v-if="status==='onboarding'" class=" border border-primary bg-primary-light p-10 grid grid-cols-12 gap-10">
+      <Transition :name="`slide-${direction}`">
+        <div v-if="status==='onboarding'"
+             class="relative border border-primary bg-primary-light p-10 grid grid-cols-12 gap-10 text-white my-md">
+          <div class="absolute z-0 inset-0 w-full h-full bg-primary"></div>
 
-          <div class="col-span-6">
-            <h1 class="text-5xl font-bold font-mono "><span class="text-fix-mono ">{{ currentFlow?.title }}</span></h1>
-            <div>
-              <UiButton @click="status = 'started'">Start exploring</UiButton>
-            </div>
+          <SanityImage :asset-id="currentFlow.coverImg?.asset?._ref"
+                       class="absolute z-0 inset-0 w-full h-full object-center object-cover opacity-60 mix-blend-luminosity"
+                       auto="format"/>
+
+          <div class="col-span-6 relative">
+
+            <h1 class="text-display-2 font-semibold"><span class=" ">{{ currentFlow?.title }}</span></h1>
 
             <SanityImage v-if="currentFlow?.networkImg" :asset-id="currentFlow?.networkImg?.asset?._ref" class="my-8"/>
           </div>
 
         </div>
 
-        <WorkflowStep v-else :step="workflowsStore.currentStep" :key="workflowsStore.currentStep?._id"
-                      class="col-span-12 flex-1"/>
+        <div v-else class="py-md overflow-hidden" :key="workflowsStore.currentStep?._id">
+
+          <WorkflowStep :step="workflowsStore.currentStep"
+                        class="col-span-12 flex-1 overflow-hidden"/>
+        </div>
       </Transition>
 
     </div>
-    <div class="w-full flex-shrink">
+    <div class="w-full flex-shrink relative">
       <WorkflowBottomBar/>
     </div>
   </div>
@@ -37,9 +44,8 @@ import {definePageMeta} from "#imports";
 const workflowsStore = useWorkflowsStore()
 const {getItem, flows, setCurrentFlow} = workflowsStore
 const {
-  canMoveOn,
   currentFlow,
-  topics,
+  direction,
   status,
 } = storeToRefs(workflowsStore)
 
@@ -75,18 +81,23 @@ definePageMeta({
 
 <style scoped>
 /* we will explain what these classes do next! */
-.slide-enter-active,
-.slide-leave-active {
-  transition: transform 0.5s ease;
+
+.slide-forward-enter-active,
+.slide-forward-leave-active,
+.slide-backward-enter-active,
+.slide-backward-leave-active {
+  @apply transition duration-1000;
+  transition-property: transform;
 }
 
-.slide-enter-from {
-  transform: translateX(100vw);
+.slide-forward-enter-from, .slide-backward-leave-to {
+  transform: translateY(calc(100% + 200px));
 }
 
-.slide-leave-to {
-  transform: translateX(-100vw);
+.slide-forward-leave-to, .slide-backward-enter-from {
+  transform: translateY(calc(-100% - 200px));
 }
+
 
 #slide-wrapper > div {
   position: absolute;

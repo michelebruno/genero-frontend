@@ -8,8 +8,10 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@nuxtjs/eslint-module": "^4.0.2",
     "@types/lodash": "^4.14.191",
     "autoprefixer": "^10.4.14",
+    "eslint": "^8.39.0",
     "nuxt": "^3.2.3",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.7"

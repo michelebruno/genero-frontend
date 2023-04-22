@@ -25,6 +25,7 @@ export const useWorkflowsStore = defineStore('workflows', {
     status: 'onboarding' as 'onboarding' | 'started' | 'final',
     currentStepIndex: 0,
     editableFields: new Map<string, string>(),
+    direction: 'forward' as 'forward' | 'backward'
   }),
   getters: {
     canMoveOn: ({currentStep, ...s}) => {
@@ -89,6 +90,7 @@ export const useWorkflowsStore = defineStore('workflows', {
 
     },
     goBack() {
+      this.direction = 'backward'
 
       const p = this.prevSteps.pop()
 
@@ -103,6 +105,7 @@ export const useWorkflowsStore = defineStore('workflows', {
       this.setTheme()
     },
     goNext() {
+      this.direction = 'forward'
       if (this.status === 'onboarding') {
         this.status = 'started'
         this.setTheme()
