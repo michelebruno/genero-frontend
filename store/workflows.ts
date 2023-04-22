@@ -2,6 +2,7 @@ import {defineStore} from 'pinia'
 import {Flow, Input, Item, Step, Topic} from "~/studio/schema";
 import {SanityDocument, SanityReference} from "@sanity/client";
 import _ from "lodash";
+import {useStore} from "~/store/store";
 
 // You can name the return value of `defineStore()` anything you want,
 // but it's best to use the name of the store and surround it with `use`
@@ -27,14 +28,13 @@ export const useWorkflowsStore = defineStore('workflows', {
   }),
   getters: {
     canMoveOn: ({currentStep, ...s}) => {
-      const value = currentStep.type !== 'choose' ?
+      return currentStep.type !== 'choose' ?
         true :
         !currentStep.items?.length || !!s.selectedItem
 
-      return value
-
     },
     currentStep: (s): Step | undefined => {
+
 
       if (typeof s.nextSteps === 'undefined') return false;
 
@@ -77,9 +77,16 @@ export const useWorkflowsStore = defineStore('workflows', {
           items: s.items?.map(i => this.getItem(i)) || []
         })
       })
-      this.currentStepIndex = 0
 
       return this.currentFlow
+    },
+    setTheme() {
+      const store = useStore()
+
+      if (this.currentStep?.type === 'section') {
+        store.setDarkTheme()
+      } else store.setLightTheme()
+
     },
     goBack() {
 
@@ -92,14 +99,23 @@ export const useWorkflowsStore = defineStore('workflows', {
       this.showModal = false;
 
       this.selectedItem = null
+
+      this.setTheme()
     },
     goNext() {
-      if (this.isLastStep) {
+      if (this.status === 'onboarding') {
+        this.status = 'started'
+        this.setTheme()
+
+      } else if (this.isLastStep) {
         this.status = 'final'
         this.selectedItem = null
+        this.setTheme()
 
       } else if (this.currentStep?.type === 'choose' && this.currentStep?.items && !this.showModal) {
-        this.showModal = true
+        this.showModal = true;
+        this.setTheme()
+
       } else {
 
         const curr = _.head(this.nextSteps)
@@ -111,6 +127,7 @@ export const useWorkflowsStore = defineStore('workflows', {
         this.selectedItem = null;
 
         this.showModal = false;
+        this.setTheme()
 
         return true;
       }
@@ -196,7 +213,6 @@ export const useWorkflowsStore = defineStore('workflows', {
         this.steps.set(step._id, step)
       }
 
-      this.currentStepIndex = 0
     },
   },
 })

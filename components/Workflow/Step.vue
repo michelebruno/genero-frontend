@@ -8,7 +8,7 @@
       </div>
     </div>
 
-    <div class="col-span-12">
+    <div class="col-span-12" v-show="showModal">
       <div class="bg-white border-2 border-primary max-w-screen-lg mx-auto">
 
         <div class="bg-primary text-white px-md py-sm">
@@ -31,7 +31,7 @@
       </div>
     </div>
   </div>
-  <div v-else-if="step.type === 'section'" class="h-full flex items-end px-lg bg-primary text-white pb-lg">
+  <div v-else-if="step.type === 'section'" class="h-full flex items-end bg-primary text-white pb-lg">
 
     <div class="grid auto-rows-min grid-cols-12">
 
@@ -69,7 +69,7 @@ import {storeToRefs} from "pinia";
 import {resolveComponent} from "#imports";
 
 const workflowsStore = useWorkflowsStore()
-const {selectedItem, canMoveOn} = storeToRefs(workflowsStore)
+const {selectedItem, canMoveOn, showModal} = storeToRefs(workflowsStore)
 const {step} = defineProps<{ step: Step }>()
 
 function unselectItem() {

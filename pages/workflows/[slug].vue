@@ -1,17 +1,6 @@
 <template>
-  <div class="relative z-10">
-    <select @change="handleWorkflowChange" v-model="currentFlowId">
-      <optgroup :label="topic?.title" v-for="topic in topics">
-        <option v-for="flow in flows.filter(t => t.topics?.map( t => t._ref).includes(topic._id))"
-                :value="flow._id" :key="flow._id">
-          {{ flow?.title }}
-        </option>
-      </optgroup>
 
-    </select>
-  </div>
-
-  <div class="flex-col flex-wrap p-8 min-h-0 ">
+  <div class="w-full flex flex-col flex-wrap p-8 pt-0 min-h-0 ">
 
     <div id="slide-wrapper" class="h-step relative">
       <Transition name="slide">
@@ -44,7 +33,6 @@
 import {useWorkflowsStore} from "~/store/workflows";
 import {storeToRefs} from "pinia";
 import {definePageMeta} from "#imports";
-
 
 const workflowsStore = useWorkflowsStore()
 const {getItem, flows, setCurrentFlow} = workflowsStore
@@ -103,6 +91,11 @@ definePageMeta({
 #slide-wrapper > div {
   position: absolute;
   inset: 0;
+}
+
+
+.dark-bg {
+  @apply bg-primary text-white;
 }
 
 </style>
