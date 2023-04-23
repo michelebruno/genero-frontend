@@ -19,7 +19,8 @@
     </h2>
   </div>
   <div class="grid grid-cols-12 gap-x-md px-md">
-    <div v-for="(flow, index) in featuredFlows" :class="index < 2 ? 'col-span-6' : 'col-span-4'">
+    <div v-for="(flow, index) in featuredFlows" :class="index < 2 ? 'col-span-6' : 'col-span-4'"
+         @click="handleCardClick(flow)">
       <div class="h-xl border-2 border-black">
         <SanityImage :asset-id="flow.coverImg?.asset?._ref"
                      loading="lazy"
@@ -29,7 +30,11 @@
       </div>
       <div class="flex flex-wrap items-center text-4xl font-semibold">
         <p class="font-mono text-primary text-fix-mono font-bold">#{{ index + 1 }}</p>
-        <h3>{{ flow.title }}</h3>
+        <h3>
+          <NuxtLink :to="$genero.getWorkflowLink(flow)">
+            {{ flow.title }}
+          </NuxtLink>
+        </h3>
       </div>
     </div>
   </div>
@@ -39,11 +44,18 @@
 
 import {useWorkflowsStore} from "~/store/workflows";
 import {Flow} from "~/types";
+import {navigateTo} from "#app";
 
 const workflowStore = useWorkflowsStore()
 
 const featuredFlows: Flow[] = ref(['generate-visual-assets-for-your-brand', 'draw-an-illustration-from-draft'].map(s => workflowStore.getWorkflow(s)))
 
+
+function handleCardClick(flow) {
+  navigateTo({
+    path: '/workflows/' + flow.slug.current
+  })
+}
 </script>
 
 <style scoped lang="scss">

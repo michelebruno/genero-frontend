@@ -152,7 +152,7 @@ export interface Step extends SanityDocument {
    *
    *
    */
-  type?: "choose" | "text" | "know" | "section";
+  type?: "choose" | "text" | "know" | "section" | "options";
 
   /**
    * Illustrazione — `image`
@@ -308,6 +308,36 @@ export interface Field extends SanityDocument {
   title?: string;
 }
 
+/**
+ * Glossario
+ *
+ *
+ */
+export interface Glossary extends SanityDocument {
+  _type: "glossary";
+
+  /**
+   * Word — `string`
+   *
+   *
+   */
+  word?: string;
+
+  /**
+   * Display — `string`
+   *
+   *
+   */
+  display?: string;
+
+  /**
+   * Descrizione — `content`
+   *
+   *
+   */
+  content?: Content;
+}
+
 export type Content = Array<SanityKeyed<SanityBlock>>;
 
-export type Documents = Flow | Step | Item | Input | Topic | Field;
+export type Documents = Flow | Step | Item | Input | Topic | Field | Glossary;

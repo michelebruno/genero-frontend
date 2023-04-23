@@ -1,15 +1,71 @@
 <template>
-<h2>Glossary</h2>
 
-  <div></div>
+  <PageHeading>
+    Glossary
+    <template #description>
+      Lorem ipsum dolor sit amet consectetur. Iaculis nibh euismod leo pulvinar in. At malesuada cursus vel gravida.
+      Turpis dui et blandit vulputate eu. Quisque ut ut hac elit non lorem.
+    </template>
+  </PageHeading>
+  <article>
+    <div class="grid grid-cols-12 gap-x-md gap-y-lg ">
+      <template v-for="[letter,words] in alphabet.entries()">
+        <div v-if="words.length" class="col-start-4 sticky top-lg text-right">
+          <div
+              class="glossary-letter ">
+            {{
+              letter.toUpperCase()
+            }}{{ letter.toLowerCase() }}
+          </div>
+        </div>
+
+        <div v-for="word in words" class="word">
+          <h3 class="font-mono text-4xl font-bold py-sm">{{ word.display || word.word }}</h3>
+          <div class="prose">
+            <SanityContent v-if="word.content" :blocks="word.content"/>
+            <p v-else>Lorem ipsum dolor sit amet consectetur. Ultrices ullamcorper morbi viverra tellus. Purus vulputate
+              eget nulla suscipit ornare ut malesuada pellentesque.</p>
+          </div>
+        </div>
+
+      </template>
+    </div>
+
+  </article>
 </template>
 
-<script>
-export default {
-  name: "glossary"
+<script setup lang="ts">
+import {useStore} from "~/store/store";
+import {storeToRefs} from "pinia";
+import {Glossary} from "~/types";
+
+const store = useStore()
+
+const {glossary} = storeToRefs(store)
+
+const alpha = Array(26).fill(0).map((_, i) => [String.fromCharCode(i + 65), []])
+
+const alphabet = ref<Map<string, Glossary[]>>(new Map(alpha))
+
+for (const [key, word] of glossary.value.entries()) {
+  alphabet?.value?.get(key.toUpperCase()[0]).push(word)
 }
+
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.glossary-letter {
+  @apply inline-block text-5xl font-mono font-bold bg-primary aspect-square p-sm w-20 h-20 inline-flex items-center justify-center  normal-case text-white
+}
 
+.word {
+  @apply col-span-5 col-start-5 border-t-2 border-primary;
+
+  h3 {
+
+    leading-trim: both;
+    text-edge: cap alphabetic;
+    line-height: .6;
+  }
+}
 </style>

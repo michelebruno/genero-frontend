@@ -212,8 +212,8 @@ export default [
       }),
       defineField({
         name: 'image',
-        type:'image',
-        name:'Illustrazione'
+        type: 'image',
+        name: 'Illustrazione'
       }),
       defineField({
         name: 'note',
@@ -358,6 +358,30 @@ export default [
         name: 'title',
         type: 'string',
         title: 'title'
+      })
+    ]
+  }),
+
+  defineType({
+    name: 'glossary',
+    type: "document",
+    title: "Glossario",
+    fields: [
+      defineField({
+        name: 'word',
+        title: 'Word',
+        type: 'string',
+        validation: V => V.required()
+      }),
+      defineField({
+        name: 'display',
+        title: 'Display',
+        type: 'string'
+      }),
+      defineField({
+        name: 'content',
+        type: 'content',
+        title: 'Descrizione'
       })
     ]
   })

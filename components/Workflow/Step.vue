@@ -61,6 +61,7 @@
 
 
   </div>
+  <div v-else-if="step.type === 'know'"></div>
   <div v-else> {{ step.type }}</div>
 </template>
 

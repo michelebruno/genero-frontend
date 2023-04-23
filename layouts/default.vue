@@ -7,7 +7,9 @@
     </nav>
     <nav v-else>
       <div id="logo-wrapper">
-        <GeneroLogo/>
+        <NuxtLink to="/">
+          <GeneroLogo/>
+        </NuxtLink>
       </div>
       <div>
         <NuxtLink to="/workflows">Workflows</NuxtLink>

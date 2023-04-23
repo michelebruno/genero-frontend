@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia'
 import {Flow, Input, Item, Step, Topic} from "~/studio/schema";
 import {SanityDocument, SanityReference} from "@sanity/client";
-import _ from "lodash";
+import _, {words} from "lodash";
 import {useStore} from "~/store/store";
 
 // You can name the return value of `defineStore()` anything you want,
@@ -192,25 +192,30 @@ export const useWorkflowsStore = defineStore('workflows', {
       return this.flows.find(i => ([i._id, i.slug?.current].includes(id))) || null
     },
     async fetchData() {
+      const defaultStore = useStore()
+
       const query = groq`{
       'items':*[_type == "item"],
       'steps':*[_type == "step"],
       'flows':*[_type == "flow"],
       'inputs':*[_type == "input"],
       'topics':*[_type == "topic"],
+      'glossary':*[_type == "glossary"],
       }`;
 
       const res = await useSanityQuery(query);
 
       const {data} = res
 
-      const {items, steps, flows, inputs, topics} = data.value
+      const {items, steps, flows, inputs, topics, glossary} = data.value
 
       this.items = items
       this.inputs = inputs
       this.topics = topics
       this.items = items
       this.flows = flows
+
+      defaultStore.setGlossary(glossary)
 
       for (const step of steps) {
         this.steps.set(step._id, step)
