@@ -1,9 +1,11 @@
 import {defineField, defineType} from "sanity";
 import {Step} from "../../types";
 
-function hideIf(type: Step['type'] = 'choose') {
+function hideIf(type: Step['type'] | Step['type'][] = 'choose') {
 
-  return ({document}) => document.type === type
+  let arr = Array.isArray(type) ? type : [type]
+
+  return ({document}) => arr.includes(document.type)
 }
 
 export default [
@@ -232,11 +234,40 @@ export default [
       defineField({
         type: 'array',
         name: 'items',
-        hidden: hideIf('text'),
+        hidden: hideIf(['text', 'options']),
         of: [
           {
             type: 'reference', to: [{type: 'item'}]
           }
+        ]
+      }),
+      defineField({
+        type: 'array',
+        name: 'options',
+        hidden: ({document}) => document.type !== 'options',
+        of: [
+          {
+            type: 'object',
+            fields: [
+              defineField({
+                name: 'title',
+                type: 'string',
+                title: 'Title'
+              }),
+              defineField({
+                name: 'content',
+                type: 'content',
+                title: 'Content',
+                validation: V => V.required(),
+              }),
+              defineField({
+                name: 'item',
+                type: 'reference',
+                validation: V => V.required(),
+                to: [{type: 'item'}]
+              })
+            ]
+          },
         ]
       }),
       defineField({

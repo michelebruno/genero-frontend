@@ -49,19 +49,28 @@
     </div>
 
   </div>
-  <div v-else-if="step.type === 'options'" class="bg-primary flex w-full items-center justify-center">
+  <div v-else-if="step.type === 'options'" class="bg-primary flex w-full h-full items-center justify-center">
     <div class="border-black border-2 max-w-screen-md w-full mx-auto">
-      <div class="bg-black text-white pr-md">
-        <h3 class="font-mono text-fix-mono uppercase">Optional steps you could
-          use</h3></div>
+      <div class="bg-black text-white pl-sm h-8 flex w-full items-center">
+        <h3 class="font-mono font-bold text-fix-mono uppercase ">Optional steps you could use</h3>
+      </div>
       <div>
-        <WorkflowAccordion v-for="item in step.items" :title="item.title" :content="item.content"/>
+        <WorkflowAccordion v-for="item in step.options" v-bind="item" :open="activeTab === item._key" :key="item._key"
+                           @toggle="activeTab = (activeTab === item._key ? null :item._key)"/>
       </div>
     </div>
 
 
   </div>
-  <div v-else-if="step.type === 'know'"></div>
+  <div v-else-if="step.type === 'know'" class="border-primary border-2 p-lg grid grid-cols-12 h-full">
+    <div class="col-span-6 col-start-4 text-center">
+      <h2 class="text-7xl font-bold mb-sm">{{ step.title }}</h2>
+      <div class="prose prose-p:text-xl prose-p:my-0 max-w-full">
+        <SanityContent :blocks="step.content"/>
+      </div>
+    </div>
+
+  </div>
   <div v-else> {{ step.type }}</div>
 </template>
 
@@ -74,6 +83,8 @@ import {resolveComponent} from "#imports";
 const workflowsStore = useWorkflowsStore()
 const {selectedItem, canMoveOn, showModal} = storeToRefs(workflowsStore)
 const {step} = defineProps<{ step: Step }>()
+
+const activeTab = ref(null)
 
 function unselectItem() {
   workflowsStore.setSelectedItem(null)

@@ -188,6 +188,36 @@ export interface Step extends SanityDocument {
   items?: Array<SanityKeyedReference<Item>>;
 
   /**
+   * options — `array`
+   *
+   *
+   */
+  options?: Array<
+    SanityKeyed<{
+      /**
+       * Title — `string`
+       *
+       *
+       */
+      title?: string;
+
+      /**
+       * Content — `content`
+       *
+       *
+       */
+      content?: Content;
+
+      /**
+       * item — `reference`
+       *
+       *
+       */
+      item?: SanityReference<Item>;
+    }>
+  >;
+
+  /**
    * Requires — `array`
    *
    *
