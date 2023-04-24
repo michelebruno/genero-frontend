@@ -1,17 +1,23 @@
 <template>
-  <div class="flex gap-x-4 mt-4 h-[90px]">
+  <div class="flex gap-x-4 h-[90px]">
     <UiButton class="block h-full aspect-square bg-white" @click="handlePrev">←</UiButton>
     <div class="flex-grow border-2 border-black bg-white">
       <Transition appear name="stepper">
-        <div class="flex gap-x-sm items-center justify-center h-full" v-show="!['section'].includes(currentStep.type)">
+        <div class="flex gap-x-sm items-center justify-center h-full"
+             v-show="!['section', 'options'].includes(currentStep.type)">
           <div class="flex" v-if="prevStep">
-            <WorkflowPill>{{ prevStep.title }}</WorkflowPill>
+            <WorkflowPill type="prev">{{ prevStep?.shortTitle || prevStep.title }}</WorkflowPill>
           </div>
           <div>
             >
           </div>
-          <div class="flex" v-if="prevStep">
-            <WorkflowPill>{{ currentStep.title }}</WorkflowPill>
+          <div v-if="Array.isArray(currentStep)" class="flex max-w-[30ch] gap-1 justify-center flex-wrap">
+            <WorkflowPill v-for="choice in currentStep" :type="selectedItem?._id === choice._id && 'active'">
+              {{ choice?.shortTitle || choice.title }}
+            </WorkflowPill>
+          </div>
+          <div v-else class="flex">
+            <WorkflowPill>{{ currentStep?.shortTitle || currentStep.title }}</WorkflowPill>
           </div>
           <div>
             >
@@ -43,7 +49,7 @@ import {useWorkflowsStore} from "../../store/workflows";
 import {storeToRefs} from "pinia";
 
 const workflowsStore = useWorkflowsStore()
-const {getItem, goNext, goBack, flows, setCurrentFlow, currentStepIndex} = workflowsStore
+const {getItem, goNext, goBack} = workflowsStore
 const {selectedItem, status, canMoveOn, prevSteps, nextSteps, showModal} = storeToRefs(workflowsStore)
 
 function handleNext() {
@@ -64,15 +70,17 @@ const isNextDisabled = computed(() => {
 
 
 const currentStep = computed(() => {
-  return workflowsStore.currentStep
+  return showModal.value ? workflowsStore.currentStep.items : workflowsStore.currentStep
 })
+
 const nextStep = computed(() => {
   return nextSteps.value[1]
 })
 
 const prevStep = computed(() => {
-  if (!prevSteps.value?.length) return null;
-  return (workflowsStore.currentStep?.type === 'choose' && showModal.value) ? workflowsStore.currentStep : prevSteps.value[prevSteps.value.length - 1]
+  if (currentStep.value.type === 'choose' && showModal.value) return currentStep.value
+
+  return prevSteps.value.filter(n => !['options'].includes(n.type)).slice(-1)[0]
 })
 
 

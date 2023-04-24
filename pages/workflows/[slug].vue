@@ -1,8 +1,8 @@
 <template>
 
-  <div class="w-full flex flex-col flex-wrap p-8 pt-0 min-h-0 ">
+  <div class="w-full flex flex-col flex-wrap p-8 pt-0 min-h-0 w-full flex-shrink-0 flex-grow ">
 
-    <div id="slide-wrapper" class="h-step relative">
+    <div id="slide-wrapper" class="flex-grow relative">
       <Transition :name="`slide-${direction}`">
         <div v-if="status==='onboarding'"
              class="relative border border-primary bg-primary-light p-10 grid grid-cols-12 gap-10 text-white my-md">

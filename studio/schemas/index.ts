@@ -261,10 +261,10 @@ export default [
                 validation: V => V.required(),
               }),
               defineField({
-                name: 'item',
+                name: 'step',
                 type: 'reference',
                 validation: V => V.required(),
-                to: [{type: 'item'}]
+                to: [{type: 'step'}]
               })
             ]
           },

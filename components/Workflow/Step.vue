@@ -49,7 +49,7 @@
     </div>
 
   </div>
-  <div v-else-if="step.type === 'options'" class="bg-primary flex w-full h-full items-center justify-center">
+  <div v-else-if="step.type === 'options'" class=" flex w-full h-full items-center justify-center">
     <div class="border-black border-2 max-w-screen-md w-full mx-auto">
       <div class="bg-black text-white pl-sm h-8 flex w-full items-center">
         <h3 class="font-mono font-bold text-fix-mono uppercase ">Optional steps you could use</h3>
@@ -59,8 +59,6 @@
                            @toggle="activeTab = (activeTab === item._key ? null :item._key)"/>
       </div>
     </div>
-
-
   </div>
   <div v-else-if="step.type === 'know'" class="border-primary border-2 p-lg grid grid-cols-12 h-full">
     <div class="col-span-6 col-start-4 text-center">

@@ -84,7 +84,7 @@ export const useWorkflowsStore = defineStore('workflows', {
     setTheme() {
       const store = useStore()
 
-      if (this.currentStep?.type === 'section') {
+      if (['section','options'].includes(this.currentStep?.type)) {
         store.setDarkTheme()
       } else store.setLightTheme()
 

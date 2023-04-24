@@ -1,6 +1,6 @@
 <template>
   <div :class="['relative', isWorkflow && 'workflow-wrapper transition-[background-color]', store.theme==='dark' && 'bg-primary']">
-    <nav v-if="isWorkflow" :class="[store.theme === 'dark' && 'text-white', '!pb-0']">
+    <nav v-if="isWorkflow" :class="[store.theme === 'dark' && 'text-white', '!pb-0',   '!flex-shrink !flex-grow-0']">
       <div id="logo-wrapper">
         <GeneroLogo/>
       </div>
@@ -32,7 +32,7 @@ import {useStore} from "../store/store";
 const route = useRoute();
 const store = useStore()
 
-const isWorkflow = !!route.params.slug
+const isWorkflow = computed(() =>!!route.params.slug)
 
 
 </script>
@@ -100,9 +100,7 @@ nav {
 }
 
 .workflow-wrapper {
-  @apply w-full h-screen flex flex-wrap;
-  & > * {
-    @apply w-full flex-shrink-0 flex-grow;
-  }
+  @apply w-full h-screen flex flex-col flex-wrap;
+
 }
 </style>
