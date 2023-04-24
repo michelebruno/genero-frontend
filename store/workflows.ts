@@ -31,7 +31,7 @@ export const useWorkflowsStore = defineStore('workflows', {
     canMoveOn: ({currentStep, ...s}) => {
       return currentStep.type !== 'choose' ?
         true :
-        !currentStep.items?.length || !!s.selectedItem
+        currentStep.items?.length === 0 || !!s.selectedItem
 
     },
     currentStep: (s): Step | undefined => {

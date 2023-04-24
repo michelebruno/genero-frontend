@@ -50,7 +50,7 @@ import {storeToRefs} from "pinia";
 
 const workflowsStore = useWorkflowsStore()
 const {getItem, goNext, goBack} = workflowsStore
-const {selectedItem, status, canMoveOn, prevSteps, nextSteps, showModal} = storeToRefs(workflowsStore)
+const {selectedItem, status, prevSteps, nextSteps, showModal} = storeToRefs(workflowsStore)
 
 function handleNext() {
   goNext()
@@ -62,10 +62,10 @@ function handlePrev() {
 
 
 const isNextDisabled = computed(() => {
-  if (currentStep.type === 'choose' && !showModal) {
+  if (workflowsStore.currentStep.type === 'choose' && !showModal.value) {
     return false
   }
-  return !canMoveOn
+  return !workflowsStore.canMoveOn
 })
 
 
@@ -78,7 +78,7 @@ const nextStep = computed(() => {
 })
 
 const prevStep = computed(() => {
-  if (currentStep.value.type === 'choose' && showModal.value) return currentStep.value
+  if (workflowsStore.currentStep.type === 'choose' && showModal.value) return workflowsStore.currentStep
 
   return prevSteps.value.filter(n => !['options'].includes(n.type)).slice(-1)[0]
 })

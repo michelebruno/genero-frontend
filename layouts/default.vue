@@ -1,11 +1,17 @@
 <template>
   <div :class="['relative', isWorkflow && 'workflow-wrapper transition-[background-color]', store.theme==='dark' && 'bg-primary']">
-    <nav v-if="isWorkflow" :class="[store.theme === 'dark' && 'text-white', '!pb-0',   '!flex-shrink !flex-grow-0']">
+    <nav v-if="isWorkflow" :class="[store.theme === 'dark' && 'text-white', 'group !pb-0 !flex-shrink !flex-grow-0 grid grid-cols-[1fr_auto_1fr]']">
       <div id="logo-wrapper">
         <GeneroLogo/>
       </div>
+      <div class="opacity-0 group-hover:opacity-100 transition select-none">
+        <span>
+          {{workflowStore.currentFlow.title}}
+        </span>
+      </div>
+      <div class="text-right">X</div>
     </nav>
-    <nav v-else>
+    <nav v-else class="flex ">
       <div id="logo-wrapper">
         <NuxtLink to="/">
           <GeneroLogo/>
@@ -28,9 +34,15 @@
 <script setup>
 
 import {useStore} from "../store/store";
+import {useWorkflowsStore} from "../store/workflows";
 
 const route = useRoute();
-const store = useStore()
+const store = useStore();
+const workflowStore = useWorkflowsStore()
+
+definePageMeta({
+  title: workflowStore.currentFlow.title
+})
 
 const isWorkflow = computed(() =>!!route.params.slug)
 
@@ -96,7 +108,7 @@ const isWorkflow = computed(() =>!!route.params.slug)
 }
 
 nav {
-  @apply py-sm px-md flex flex-shrink flex-grow-0 w-full justify-between
+  @apply py-sm px-md flex-shrink flex-grow-0 w-full justify-between
 }
 
 .workflow-wrapper {
