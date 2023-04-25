@@ -1,9 +1,14 @@
 <template>
-  <button :class="[' bg-white border-r border border-black p-sm w-full text-left', selected && '!border-primary']"
-          @click=" workflowStore.setSelectedItem(selected ? null : _id)">
-    <h3 class="font-bold text-2xl mb-2 w-full">{{ shortTitle || title }}</h3>
-    <p v-if="description">{{ description }}</p>
-  </button>
+  <div
+      :class="['block bg-white border-2 min-h-full self-stretch w-full h-full text-left w-full', selected && '!border-primary']">
+    <div role="button"
+         :class="['h-full text-left  p-sm ', selected && ' !bg-primary bg-opacity-10']"
+         @click=" workflowStore.setSelectedItem(selected ? null : _id)">
+      <h3 class="font-bold text-2xl mb-2 w-full">{{ shortTitle || title }}</h3>
+      <p v-if="description">{{ description }}</p>
+    </div>
+  </div>
+
 </template>
 
 <script setup lang="ts">

@@ -65,7 +65,7 @@ const isNextDisabled = computed(() => {
   if (workflowsStore.currentStep.type === 'choose' && !showModal.value) {
     return false
   }
-  return !workflowsStore.canMoveOn
+  return !workflowsStore.canMoveOn ? { text : 'Select an option to continue' } : false
 })
 
 

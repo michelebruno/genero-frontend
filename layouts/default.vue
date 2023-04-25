@@ -4,12 +4,14 @@
       <div id="logo-wrapper">
         <GeneroLogo/>
       </div>
-      <div class="opacity-0 group-hover:opacity-100 transition select-none">
+      <div class="opacity-0 -translate-y-full duration-1000 group-hover:translate-y-0 group-hover:opacity-100 transition select-none ">
         <span>
           {{workflowStore.currentFlow.title}}
         </span>
       </div>
-      <div class="text-right">X</div>
+      <div class="text-right ">
+        <button class="text-fix-mono font-mono font-bold p-sm">X</button>
+      </div>
     </nav>
     <nav v-else class="flex ">
       <div id="logo-wrapper">
@@ -108,7 +110,7 @@ const isWorkflow = computed(() =>!!route.params.slug)
 }
 
 nav {
-  @apply py-sm px-md flex-shrink flex-grow-0 w-full justify-between
+  @apply py-sm px-md flex-shrink flex-grow-0 w-full justify-between items-center
 }
 
 .workflow-wrapper {

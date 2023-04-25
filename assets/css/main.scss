@@ -51,10 +51,12 @@ $variables: (
                         "default": "24px"
                 ),
                 "display-1" : (
-                        "default": "120px"
+                        "default": "80px",
+                        "2xl": "120px",
                 ),
                 "display-2" : (
-                        "default": "66px"
+                        "default": "50px",
+                        "2xl": "66px",
                 ),
         ),
         'transition-duration' : (
