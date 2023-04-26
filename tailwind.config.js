@@ -19,14 +19,14 @@ module.exports = {
             },
             spacing: {
                 ...Object.fromEntries(
-                    ['sm', 'md', 'lg', 'step'].map(s => [s, `var(--spacing-${s})`])
+                    ['sm', 'md', 'lg', 'step', 'outsides'].map(s => [s, `var(--spacing-${s})`])
                 )
             },
             fontSize: {
                 "fix-mono": ['1.5em', .6],
 
                 ...Object.fromEntries(
-                    ['lead', 'display-1', 'display-2'].map(s => [s, [`var(--font-size-${s})`, `var(--leading-${s}, 1.15)`,]])
+                    ['lead', 'display-1', 'display-2', 'sm'].map(s => [s, [`var(--font-size-${s})`, `var(--leading-${s}, 1.15)`,]])
                 )
             },
             colors: {

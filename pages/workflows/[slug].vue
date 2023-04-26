@@ -1,6 +1,6 @@
 <template>
 
-  <div class="w-full flex flex-col flex-wrap p-8 pt-0 min-h-0 w-full flex-shrink-0 flex-grow ">
+  <div class="w-full flex flex-col flex-wrap p-8 px-outsides pt-0 min-h-0 w-full flex-shrink-0 flex-grow ">
 
     <div id="slide-wrapper" class="flex-grow relative">
       <Transition :name="`slide-${direction}`">

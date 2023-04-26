@@ -8,9 +8,14 @@
       </div>
     </div>
 
-    <Transition name="modal">
-      <div class="col-span-12" v-show="showModal">
-        <div class="bg-white border-2 border-primary max-w-screen-lg mx-auto">
+    <div class="col-span-12 relative ">
+
+
+      <Transition name="modal" mode="out-in">
+        <div v-if="step?.image && !showModal" class="text-center">
+          <SanityImage :asset-id="step?.image?.asset._ref" class="mx-auto" auto="format"/>
+        </div>
+        <div v-else-if="showModal" class="bg-white border-2 border-primary max-w-screen-lg mx-auto ">
 
           <div class="bg-primary text-white px-md py-sm">
 
@@ -23,11 +28,15 @@
             <WorkflowItem v-for="item in step.items" v-bind="item"/>
           </div>
         </div>
-      </div>
-    </Transition>
+      </Transition>
+
+    </div>
   </div>
   <div v-else-if="step.type === 'text'" class="border-primary border-2 p-lg grid grid-cols-12 h-full ">
     <div class="col-span-10 col-start-2 self-center">
+      <div v-if="step?.image && !showModal" class="text-center">
+        <SanityImage :asset-id="step?.image?.asset._ref" class="mx-auto" auto="format"/>
+      </div>
       <div class="prose prose-p:font-semibold prose-p:text-display-2 text-center max-w-full text-black prose-p:my-0">
         <SanityContent :blocks="step.content" :serializers="serializers"/>
       </div>
@@ -38,7 +47,7 @@
     <div class="grid auto-rows-min grid-cols-12">
 
       <div class="text-xl col-span-2">
-        <p class="font-mono text-fix-mono">01</p>
+        <p class="font-mono text-fix-mono">0{{currentSectionNumber}}</p>
       </div>
       <h2 class="text-display-1 font-semibold col-span-12">
         {{ step.title }}
@@ -50,11 +59,11 @@
 
   </div>
   <div v-else-if="step.type === 'options'" class=" flex w-full h-full items-center justify-center">
-    <div class="border-black border-2 max-w-screen-md w-full mx-auto">
+    <div class="border-black border-2 max-w-screen-md w-full mx-auto h-[50vh] bg-white overflow-hidden ">
       <div class="bg-black text-white pl-sm h-8 flex w-full items-center">
         <h3 class="font-mono font-bold text-fix-mono uppercase ">Optional steps you could use</h3>
       </div>
-      <div>
+      <div class="flex-grow flex-shrink max-h-full overflow-scroll scrollbar-none pb-8">
         <WorkflowAccordion v-for="item in step.options" v-bind="item" :open="activeTab === item._key" :key="item._key"
                            @toggle="activeTab = (activeTab === item._key ? null :item._key)"/>
       </div>
@@ -76,10 +85,10 @@
 import {Step} from '../../types'
 import {useWorkflowsStore} from "~/store/workflows";
 import {storeToRefs} from "pinia";
-import {resolveComponent} from "#imports";
+import {computed, resolveComponent} from "#imports";
 
 const workflowsStore = useWorkflowsStore()
-const {selectedItem, canMoveOn, showModal} = storeToRefs(workflowsStore)
+const {selectedItem, showModal} = storeToRefs(workflowsStore)
 const {step} = defineProps<{ step: Step }>()
 
 const activeTab = ref(null)
@@ -89,11 +98,15 @@ function unselectItem() {
 
 }
 
+const currentSectionNumber = computed(() => {
+  return workflowsStore.prevSteps.filter(i => i.type === 'section').length + 1
+})
+
 function prevStep() {
   if (selectedItem.value) {
     unselectItem()
   } else {
-    workflowsStore.prevStep()
+    workflowsStore.goBack()
   }
 }
 
@@ -112,6 +125,10 @@ const serializers = {
 .modal-enter-active,
 .modal-leave-active {
   transition: all 0.5s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 .modal-enter-from,

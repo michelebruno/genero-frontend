@@ -110,7 +110,7 @@ const isWorkflow = computed(() =>!!route.params.slug)
 }
 
 nav {
-  @apply py-sm px-md flex-shrink flex-grow-0 w-full justify-between items-center
+  @apply py-sm px-outsides flex-shrink flex-grow-0 w-full justify-between items-center
 }
 
 .workflow-wrapper {

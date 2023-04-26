@@ -1,6 +1,8 @@
 <template>
   <div class="flex gap-x-4 h-[90px]">
-    <UiButton class="block h-full aspect-square bg-white" @click="handlePrev">←</UiButton>
+    <div class="aspect-[136/90] border-2 border-black bg-white">
+      <img src="~assets/images/net.png" class="h-full w-full object-fill">
+    </div>
     <div class="flex-grow border-2 border-black bg-white">
       <Transition appear name="stepper">
         <div class="flex gap-x-sm items-center justify-center h-full"
@@ -28,14 +30,15 @@
         </div>
       </Transition>
     </div>
-    <div class="flex bg-white">
+    <div class="flex bg-white" ref="navButtons">
+      <UiButton v-if="status === 'started'" class="block h-full px-sm bg-white" @click="handlePrev">←</UiButton>
       <UiButton class="block h-full aspect-square" @click="handleNext" primary :disabled="isNextDisabled"
                 :theme="status === 'started' && 'dark'  ">
 
         {{
           status === 'onboarding' ?
               "Start"
-              : "Next"
+              : "Next →"
         }}
 
       </UiButton>
@@ -60,17 +63,18 @@ function handlePrev() {
   goBack()
 }
 
+const navButtons = ref(null)
 
 const isNextDisabled = computed(() => {
   if (workflowsStore.currentStep.type === 'choose' && !showModal.value) {
     return false
   }
-  return !workflowsStore.canMoveOn ? { text : 'Select an option to continue' } : false
+  return !workflowsStore.canMoveOn ? {text: 'Select an option to continue'} : false
 })
 
 
 const currentStep = computed(() => {
-  return showModal.value ? workflowsStore.currentStep.items : workflowsStore.currentStep
+  return workflowsStore.showModal ? workflowsStore.currentStep.items : workflowsStore.currentStep
 })
 
 const nextStep = computed(() => {

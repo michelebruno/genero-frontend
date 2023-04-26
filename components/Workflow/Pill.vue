@@ -1,5 +1,5 @@
 <template>
-  <div :class="['rounded-xl border border-current py-1 px-2',
+  <div :class="['rounded-xl border border-current text-sm py-1 px-2 cursor-default select-none',
   props.type === 'default' && 'border-black',
   props.type === 'prev' && 'bg-gray-100 text-gray-400',
   props.type === 'active' && 'text-white bg-primary',

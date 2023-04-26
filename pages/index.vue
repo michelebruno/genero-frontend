@@ -1,6 +1,6 @@
 <template>
 
-  <div class="h-screen">
+  <div class="h-screen px-outsides">
     <h1 class="text-display-2 font-semibold">
       Explore design workflows with <span class="text-fix-mono font-mono">
       generative AI

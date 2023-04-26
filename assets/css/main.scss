@@ -8,6 +8,10 @@ $screens: "sm", "md", "lg", "xl", "2xl";
 
 $variables: (
         'spacing': (
+                "outsides": (
+                        "default": "24px",
+                        "xl":"50px"
+                ),
                 "sm": (
                         "default": "12px",
                         "md":"15px"
@@ -47,6 +51,9 @@ $variables: (
                 ),
         ),
         "font-size": (
+                "sm" : (
+                        "default": "14px"
+                ),
                 "lead" : (
                         "default": "24px"
                 ),

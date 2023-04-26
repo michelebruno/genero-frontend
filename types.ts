@@ -159,7 +159,7 @@ export interface Step extends SanityDocument {
    *
    *
    */
-  Illustrazione?: {
+  image?: {
     _type: "image";
     asset: SanityReference<SanityImageAsset>;
     crop?: SanityImageCrop;
@@ -209,11 +209,11 @@ export interface Step extends SanityDocument {
       content?: Content;
 
       /**
-       * item — `reference`
+       * step — `reference`
        *
        *
        */
-      item?: SanityReference<Item>;
+      step?: SanityReference<Step>;
     }>
   >;
 

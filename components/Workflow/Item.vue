@@ -1,6 +1,6 @@
 <template>
   <div
-      :class="['cursor-pointer block bg-white border-2 min-h-full self-stretch w-full h-full text-left w-full', selected && '!border-primary']">
+      :class="['cursor-pointer inline-block bg-white border-2 min-h-full self-stretch text-left w-full', selected && '!border-primary']">
     <div role="button"
          :class="['h-full text-left  p-sm ', selected && ' !bg-primary bg-opacity-10']"
          @click=" workflowStore.setSelectedItem(selected ? null : _id)">

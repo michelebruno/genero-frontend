@@ -130,7 +130,6 @@ export default [
           }
         ]
       }),
-
       defineField({
         type: 'image',
         name: 'coverImg',
@@ -215,7 +214,7 @@ export default [
       defineField({
         name: 'image',
         type: 'image',
-        name: 'Illustrazione'
+        title: 'Illustrazione'
       }),
       defineField({
         name: 'note',
