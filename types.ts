@@ -59,11 +59,11 @@ export interface Flow extends SanityDocument {
   fields?: Array<SanityKeyedReference<Field>>;
 
   /**
-   * Description — `string`
+   * Description — `content`
    *
    *
    */
-  description?: string;
+  description?: Content;
 
   /**
    * Preferito — `boolean`
@@ -146,6 +146,13 @@ export interface Step extends SanityDocument {
    *
    */
   content?: Content;
+
+  /**
+   * Label — `string`
+   *
+   * Used for optional steps
+   */
+  label?: string;
 
   /**
    * type — `string`

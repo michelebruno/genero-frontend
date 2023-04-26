@@ -1,7 +1,10 @@
 <template>
 
   <div class="bg-white">
-    <div class="p-sm gap-sm border-black border-b-2 flex items-center w-full" @click="$emit('toggle')">
+    <div class="p-sm gap-sm border-black border-b-2 flex items-center justify-between w-full" @click="$emit('toggle')">
+      <p class="font-mono font-bold text-xl text-fix-mono uppercase">
+        {{ title }}
+      </p>
       <div :class="[open && 'rotate-180', '']">
         <svg viewBox="0 0 16 16" fill="none" class="w-4 h-4" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -9,9 +12,7 @@
               fill="black"/>
         </svg>
       </div>
-      <p class="font-mono font-bold text-xl text-fix-mono uppercase">
-        {{ title }}
-      </p>
+
     </div>
     <div class="p-sm bg-white text-black grid gap-y-4 border-b border-black" v-show="props.open">
       <h3 class="text-display-2 font-semibold">
@@ -23,7 +24,7 @@
       <div class="text-right">
         <UiButton @click="handleClick" :primary="isAdded">
           <template v-if="!isAdded">
-            Add to the flow >
+            Add to the flow →
           </template>
           <template v-else>
             Added

@@ -8,13 +8,13 @@
         <div class="flex gap-x-sm items-center justify-center h-full"
              v-show="!['section', 'options'].includes(currentStep.type)">
           <div class="flex" v-if="prevStep">
-            <WorkflowPill type="prev">{{ prevStep?.shortTitle || prevStep.title }}</WorkflowPill>
+            <WorkflowPill layout="prev">{{ prevStep?.shortTitle || prevStep.title }}</WorkflowPill>
           </div>
           <div>
             >
           </div>
           <div v-if="Array.isArray(currentStep)" class="flex max-w-[30ch] gap-1 justify-center flex-wrap">
-            <WorkflowPill v-for="choice in currentStep" :type="selectedItem?._id === choice._id && 'active'">
+            <WorkflowPill v-for="choice in currentStep" :layout="selectedItem?._id === choice._id && 'active'">
               {{ choice?.shortTitle || choice.title }}
             </WorkflowPill>
           </div>
@@ -25,7 +25,7 @@
             >
           </div>
           <div class="flex">
-            <WorkflowPill type="next">Next step</WorkflowPill>
+            <WorkflowPill layout="next">Next step</WorkflowPill>
           </div>
         </div>
       </Transition>
@@ -66,7 +66,7 @@ function handlePrev() {
 const navButtons = ref(null)
 
 const isNextDisabled = computed(() => {
-  if (workflowsStore.currentStep.type === 'choose' && !showModal.value) {
+  if (workflowsStore.currentStep.layout === 'choose' && !showModal.value) {
     return false
   }
   return !workflowsStore.canMoveOn ? {text: 'Select an option to continue'} : false
@@ -82,9 +82,9 @@ const nextStep = computed(() => {
 })
 
 const prevStep = computed(() => {
-  if (workflowsStore.currentStep.type === 'choose' && showModal.value) return workflowsStore.currentStep
+  if (workflowsStore.currentStep.layout === 'choose' && showModal.value) return workflowsStore.currentStep
 
-  return prevSteps.value.filter(n => !['options'].includes(n.type)).slice(-1)[0]
+  return prevSteps.value.filter(n => !['options'].includes(n.layout)).slice(-1)[0]
 })
 
 

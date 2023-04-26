@@ -104,7 +104,7 @@ export default [
       }),
       defineField({
         name: 'description',
-        type: 'string',
+        type: 'content',
         title: "Description"
       }),
       defineField({
@@ -201,8 +201,14 @@ export default [
         title: "Description"
       }),
       defineField({
+        name: 'label',
         type: 'string',
-        name: 'type',
+        title: "Label",
+        description: "Used for optional steps"
+      }),
+      defineField({
+        type: 'string',
+        name: 'layout',
         validation: R => R.required(),
         options: {
           layout: "radio",

@@ -1,6 +1,6 @@
 <template>
-  <div
-      :class="['cursor-pointer inline-block bg-white border-2 min-h-full self-stretch text-left w-full', selected && '!border-primary']">
+  <div ref="rootEl"
+       :class="['cursor-pointer inline-block bg-white border-2 min-h-full self-stretch text-left w-full', selected && '!border-primary']">
     <div role="button"
          :class="['h-full text-left  p-sm ', selected && ' !bg-primary bg-opacity-10']"
          @click=" workflowStore.setSelectedItem(selected ? null : _id)">
@@ -18,11 +18,13 @@
 <script setup lang="ts">
 
 import {useWorkflowsStore} from "~/store/workflows";
-import {computed} from "#imports";
+import {computed, watch} from "#imports";
+import {Item} from "~/types";
+import {ComputedVariable} from "vue/macros";
 
 const workflowStore = useWorkflowsStore()
 
-const {title, description, content, _id, shortTitle} = defineProps<{
+const props = defineProps<{
   title?: string,
   shortTitle?: string,
   description?: string,
@@ -33,8 +35,15 @@ const {title, description, content, _id, shortTitle} = defineProps<{
   _id: string,
 }>()
 
+const rootEl = ref<null | Element>(null)
 
-const selected = computed(() => workflowStore.isItemSelected(_id))
+const item: ComputedVariable<Item> = computed(() => workflowStore.getItem(props.value._id))
+
+const disabled = computed(() => workflowStore.wasItChosen(item.hiddenIf))
+
+const selected = computed(() => workflowStore.isItemSelected(props._id))
+
+watch(selected, () => selected.value && rootEl.value?.scrollIntoView({behavior: 'smooth', block:'start'}))
 </script>
 
 <style scoped>

@@ -24,6 +24,10 @@ $variables: (
                         "default": "18px",
                         "md":"60px"
                 ),
+                "xl": (
+                        "default": "24px",
+                        "md":"90px"
+                ),
                 "step": (
                         "default" :"80vh"
                 )
@@ -56,6 +60,9 @@ $variables: (
                 ),
                 "lead" : (
                         "default": "24px"
+                ),
+                "h2" : (
+                        "default": "48px"
                 ),
                 "display-1" : (
                         "default": "80px",

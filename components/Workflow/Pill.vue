@@ -1,9 +1,9 @@
 <template>
   <div :class="['rounded-xl border border-current text-sm py-1 px-2 cursor-default select-none',
-  props.type === 'default' && 'border-black',
-  props.type === 'prev' && 'bg-gray-100 text-gray-400',
-  props.type === 'active' && 'text-white bg-primary',
-  props.type === 'next' && 'border-dashed text-gray'
+  props.layout === 'default' && 'border-black',
+  props.layout === 'prev' && 'bg-gray-100 text-gray-400',
+  props.layout === 'active' && 'text-white bg-primary',
+  props.layout === 'next' && 'border-dashed text-gray'
   ]">
     <slot/>
   </div>
@@ -11,9 +11,9 @@
 
 <script setup lang="ts">
 const props = withDefaults(defineProps<{
-  type?: 'default' | 'next' | 'active' | 'prev',
+  layout?: 'default' | 'next' | 'active' | 'prev',
 }>(), {
-  type: 'default',
+  layout: 'default',
 })
 
 </script>

@@ -16,7 +16,7 @@ export const useWorkflowsStore = defineStore('workflows', {
     inputs: [] as Input[],
     topics: [] as Topic[],
     active: null,
-    selectedItem: null as Item | null,
+    choices: new Map() as Map<string, Item>,
     showModal: false,
     currentFlow: null as null | Flow,
     flow: null,
@@ -29,13 +29,15 @@ export const useWorkflowsStore = defineStore('workflows', {
   }),
   getters: {
     canMoveOn: ({currentStep, ...s}) => {
-      return currentStep.type !== 'choose' ?
+      return currentStep.layout !== 'choose' ?
         true :
         currentStep.items?.length === 0 || !!s.selectedItem
 
     },
+    selectedItem(s) {
+      return s.choices.get(s.currentStep._id)
+    },
     currentStep: (s): Step | undefined => {
-
 
       if (typeof s.nextSteps === 'undefined') return false;
 
@@ -57,10 +59,9 @@ export const useWorkflowsStore = defineStore('workflows', {
       return this.selectedItem !== null && !!item && this.getItem(item)?._id === this.selectedItem?._id
     },
     setSelectedItem(value: Item | string | SanityReference) {
-      this.selectedItem = this.getItem(value)
+      this.choices.set(this.currentStep?._id, this.getItem(value))
     },
     setCurrentFlow(flow: string | SanityDocument | undefined = undefined) {
-
       if (!flow) {
         this.currentFlow = this.flows[0]
       } else if (typeof flow === 'string') {
@@ -84,7 +85,7 @@ export const useWorkflowsStore = defineStore('workflows', {
     setTheme() {
       const store = useStore()
 
-      if (['section','options'].includes(this.currentStep?.type)) {
+      if (['section', 'options'].includes(this.currentStep?.layout)) {
         store.setDarkTheme()
       } else store.setLightTheme()
 
@@ -96,11 +97,7 @@ export const useWorkflowsStore = defineStore('workflows', {
 
       this.nextSteps = [p, ...this.nextSteps]
 
-      this.selectedItem = null;
-
       this.showModal = false;
-
-      this.selectedItem = null
 
       this.setTheme()
     },
@@ -112,10 +109,9 @@ export const useWorkflowsStore = defineStore('workflows', {
 
       } else if (this.isLastStep) {
         this.status = 'final'
-        this.selectedItem = null
         this.setTheme()
 
-      } else if (this.currentStep?.type === 'choose' && this.currentStep?.items && !this.showModal) {
+      } else if (this.currentStep?.layout === 'choose' && this.currentStep?.items && !this.showModal) {
         this.showModal = true;
         this.setTheme()
 
@@ -126,8 +122,6 @@ export const useWorkflowsStore = defineStore('workflows', {
         this.nextSteps = _.drop(this.nextSteps)
 
         this.prevSteps = [...this.prevSteps, curr]
-
-        this.selectedItem = null;
 
         this.showModal = false;
         this.setTheme()
@@ -145,10 +139,12 @@ export const useWorkflowsStore = defineStore('workflows', {
 
       if (typeof value === 'string') {
         id = value
-      } else if (value._ref) {
+      } else if ('_ref' in value && value._ref) {
         id = value._ref
-      } else {
+      } else if ('_id' in value) {
         id = value._id
+      } else {
+        throw new Error('Error parsing item in getItem()')
       }
 
       return this.items.find(i => i._id === id) || null
@@ -171,6 +167,24 @@ export const useWorkflowsStore = defineStore('workflows', {
 
       return this.steps.get(id) || null
 
+    },
+    wasItChosen(item: Item | SanityReference | string | Array) {
+      if (Array.isArray(item)) {
+        console.log("Array of items", item)
+        return item.map(i => this.wasItChosen(i)).filter(b => b).length
+      }
+
+      console.log('Wooo')
+      for (const choice of this.choices.values()) {
+        if (choice._id === this.getItem(item)?._id) {
+          console.log("HEeeey")
+          return true;
+        }
+        console.log('Noo', item, this.getItem(item), choice)
+
+      }
+
+      return false;
     },
     getWorkflow(value: Flow | string | SanityReference) {
       if (!value) {
