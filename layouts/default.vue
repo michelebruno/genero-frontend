@@ -10,7 +10,7 @@
         </span>
       </div>
       <div class="text-right ">
-        <button class="text-fix-mono font-mono font-bold p-sm">X</button>
+        <NuxtLink class="text-fix-mono font-mono font-bold p-sm" to="/" title="Exit">X</NuxtLink>
       </div>
     </nav>
     <nav v-else class="flex ">
