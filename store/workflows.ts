@@ -84,6 +84,10 @@ export const useWorkflowsStore = defineStore('workflows', {
     },
     setTheme() {
       const store = useStore()
+      if (this.status === 'onboarding') {
+        store.setLightTheme()
+        return;
+      }
 
       if (['section', 'options'].includes(this.currentStep?.layout)) {
         store.setDarkTheme()
@@ -92,6 +96,14 @@ export const useWorkflowsStore = defineStore('workflows', {
     },
     goBack() {
       this.direction = 'backward'
+
+      if (!this.prevSteps.length) {
+
+        this.status = 'onboarding'
+        this.setTheme()
+
+        return;
+      }
 
       const p = this.prevSteps.pop()
 

@@ -73,7 +73,8 @@ const currentFlowId = computed({
 
 
 definePageMeta({
-  validate({params}, store) {
+
+  validate({params}) {
 
     const wfStore = useWorkflowsStore()
 

@@ -6,11 +6,11 @@
     <div class="flex-grow border-2 border-black bg-white">
       <Transition appear name="stepper">
         <div class="flex gap-x-sm items-center justify-center h-full"
-             v-show="!['section', 'options'].includes(currentStep.type)">
+             v-show="!['section', 'options'].includes(currentStep.type) && status === 'started'">
           <div class="flex" v-if="prevStep">
             <WorkflowPill layout="prev">{{ prevStep?.shortTitle || prevStep.title }}</WorkflowPill>
           </div>
-          <div>
+          <div v-if="prevStep">
             >
           </div>
           <div v-if="Array.isArray(currentStep)" class="flex max-w-[30ch] gap-1 justify-center flex-wrap">
