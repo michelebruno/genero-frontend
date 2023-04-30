@@ -31,8 +31,8 @@
       </Transition>
     </div>
     <div class="flex bg-white" ref="navButtons">
-      <UiButton v-if="status === 'started'" class="block h-full px-sm bg-white" @click="handlePrev">←</UiButton>
-      <UiButton class="block h-full aspect-square" @click="handleNext" primary :disabled="isNextDisabled"
+      <UiButton v-if="status === 'started'" class="block h-full px-sm bg-white border-2" @click="handlePrev">←</UiButton>
+      <UiButton class="block h-full aspect-square border-2" @click="handleNext" primary :disabled="isNextDisabled"
                 :theme="status === 'started' && 'dark'  ">
 
         {{

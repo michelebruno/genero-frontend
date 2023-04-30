@@ -196,6 +196,11 @@ export default [
         title: "Title"
       }),
       defineField({
+        name: 'shortTitle',
+        type: 'string',
+        title: "Titolo breve"
+      }),
+      defineField({
         name: 'content',
         type: 'content',
         title: "Description"

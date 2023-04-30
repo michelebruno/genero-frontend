@@ -15,10 +15,10 @@
 
     </div>
     <div class="p-sm bg-white text-black grid gap-y-4 border-b border-black" v-show="props.open">
-      <h3 class="text-display-2 font-semibold">
+      <h3 class="text-h2 font-semibold">
         {{ title }}
       </h3>
-      <div class=" text-lead">
+      <div class="">
         <SanityContent :blocks="content"/>
       </div>
       <div class="text-right">

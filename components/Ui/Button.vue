@@ -1,7 +1,7 @@
 <template>
   <component is="button"
              :class="[
-                'border-2 p-2 group border-black uppercase font-mono text-fix-mono font-bold relative', primary && 'text-white hover:bg-opacity-90' , primary && (theme ==='dark'?'bg-black':'bg-primary'),
+                'border p-2 group border-black uppercase font-mono text-fix-mono font-bold relative', primary && 'text-white hover:bg-opacity-90' , primary && (theme ==='dark'?'bg-black':'bg-primary'),
                disabled && 'opacity-50 !text-gray'
              ]" :disabled="disabled"
   >

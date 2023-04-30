@@ -1,17 +1,18 @@
 <template>
-  <div class="border-primary border-2 p-md grid grid-cols-12 h-full pt-xl relative gap-y-md auto-rows-max" v-if="step.layout === 'choose'">
+  <div class="border-primary border-2 p-md grid grid-cols-12 h-full pt-xl relative gap-y-md auto-rows-max"
+       v-if="step.layout === 'choose'">
     <div class="col-span-6 col-start-4 text-center">
       <h2 class="text-display-2 font-bold mb-sm">{{ step.title }}</h2>
       <div class="prose prose-p:text-lead prose-p:my-0 max-w-full">
         <SanityContent :blocks="step.content"/>
       </div>
     </div>
-    <div class="col-span-12 relative">
+    <div class="col-span-12 relative flex items-center">
       <Transition name="modal" mode="out-in">
-        <div v-if="step?.image && !showModal" class="text-center">
-          <SanityImage :asset-id="step?.image?.asset._ref" class="mx-auto" auto="format"/>
-        </div>
-        <div v-else-if="showModal" class="bg-white border-2 border-primary max-w-screen-lg mx-auto min-h-[30ch] ">
+        <SanityImage v-if="step?.image && !showModal" :asset-id="step?.image?.asset._ref"
+                     class="mx-auto absolute inset-0 object-contain w-full h-full" auto="format"/>
+        <div v-else-if="showModal"
+             class="bg-white border-2 border-primary max-w-screen-lg mx-auto min-h-[30ch]">
 
           <div class="bg-primary text-white px-md py-sm">
 
@@ -63,7 +64,7 @@
 
   </div>
   <div v-else-if="step.layout === 'options'" class=" flex w-full h-full items-center justify-center">
-    <div class="border-black border-2 max-w-screen-md w-full mx-auto h-[50vh] bg-white overflow-hidden ">
+    <div class="border-black border-2 max-w-screen-sm w-full mx-auto h-[50vh] bg-white overflow-hidden ">
       <div class="bg-black text-white pl-sm h-8 flex w-full items-center">
         <h3 class="font-mono font-bold text-fix-mono uppercase ">Optional steps you could use</h3>
       </div>
