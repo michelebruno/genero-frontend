@@ -2,27 +2,22 @@
   <div class="border-primary border-2 p-md flex flex-col h-full pt-xl relative gap-y-md auto-rows-min"
        v-if="step.layout === 'choose'">
     <div class="grid grid-cols-12">
-      <div class="col-span-6 col-start-4 text-center w-full">
+      <div class="col-span-12 lg:col-span-8 lg:col-start-3 2xl:col-span-6 2xl:col-start-4 text-center w-full">
         <h2 class="text-display-2 font-bold mb-sm">{{ step.title }}</h2>
-        <div class="prose prose-p:text-lead prose-p:my-sm max-w-full">
-          <SanityContent :blocks="step.content"/>
-        </div>
+        <WorkflowContent :blocks="step.content"/>
       </div>
     </div>
     <div class="grid grid-cols-12 w-full flex-shrink-0 flex-grow">
-      <div class="col-span-12 relative flex items-center w-full my-lg">
+      <div class="col-span-12 relative flex items-center w-full mb-xl">
         <Transition name="modal" mode="out-in">
-          <SanityImage v-if="step?.image && !showModal" :asset-id="step?.image?.asset._ref"
-                       class="mx-auto absolute inset-0 object-contain w-full h-full" auto="format"/>
+          <SanityImage v-if="step?.image && !showModal" :asset-id="step?.image?.asset?._ref"
+                       class="mx-auto absolute inset-0 object-contain w-full h-full object-top" auto="format"/>
           <div v-else-if="showModal"
                class="bg-white border-2 border-primary max-w-screen-lg mx-auto min-h-[30ch] absolute left-0 right-0">
-
             <div class="bg-primary text-white px-md py-sm">
-
               <h3 class="font-mono text-fix-mono font-bold mb-sm uppercase !mb-0">
                 CHOOSE ONE OF THESE METHODS <span class="text-red-600">*</span>
               </h3>
-
             </div>
             <div class="flex gap-x-md p-md">
               <WorkflowItem v-for="item in step.items" v-bind="item"/>
@@ -34,34 +29,35 @@
 
     </div>
   </div>
-  <div v-else-if="step.layout === 'know'" class="border-primary border-2 p-lg grid grid-cols-12 h-full">
-    <div class="col-span-6 col-start-4 text-center">
+  <div v-else-if="step.layout === 'know'" class="border-primary border-2 p-lg grid grid-cols-12 h-full relative">
+    <div class="col-span-8 col-start-3 2xl:col-span-6 2xl:col-start-4 text-center">
       <h2 class="text-7xl font-bold mb-sm">{{ step.title }}</h2>
-      <div class="prose prose-p:text-lead prose-p:my-0 max-w-full">
-        <SanityContent :blocks="step.content"/>
-      </div>
+      <WorkflowContent :blocks="step.content"/>
     </div>
-
+    <span v-if="step?.label" class="step-label">
+      {{ step.label }}
+    </span>
   </div>
   <div v-else-if="step.layout === 'text'" class="border-primary border-2 p-lg grid grid-cols-12 h-full relative">
-    <div v-if="step.label" class="bg-primary text-white font-mono text-fix-mono">{{ step.label }}</div>
-    <div class="col-span-12 2xl:col-span-10 2xl:col-start-2 self-center">
-      <div v-if="step?.image && !showModal" class="text-center">
-        <SanityImage :asset-id="step?.image?.asset._ref" class="mx-auto" auto="format"/>
+    <div v-if="step.label" class="step-label">{{ step.label }}</div>
+    <div class="col-span-12 2xl:col-span-10 2xl:col-start-2 self-center ">
+      <div v-if="step?.image && !showModal" class="text-center relative h-[25vh]">
+        <SanityImage :asset-id="step?.image?.asset?._ref" class="mx-auto absolute inset-0 w-full h-full object-contain"
+                     auto="format"/>
       </div>
-      <div class="prose prose-p:font-semibold prose-p:text-h2 text-center max-w-full text-black prose-p:my-0">
-        <SanityContent :blocks="step.content" :serializers="serializers"/>
-      </div>
+      <WorkflowContent :blocks="step?.content" class="" layout="heading"/>
+
     </div>
   </div>
   <div v-else-if="step.layout === 'section'" class="h-full flex items-end text-white pb-lg">
     <div class="grid auto-rows-min grid-cols-12">
-      <div class="text-xl col-span-2">
+      <div class="text-xl col-span-10">
         <p class="font-mono text-fix-mono font-bold">0{{ currentSectionNumber }}</p>
+        <h2 class="text-display-1 font-semibold col-span-12">
+          {{ step.title }}
+        </h2>
       </div>
-      <h2 class="text-display-1 font-semibold col-span-12 pb-sm">
-        {{ step.title }}
-      </h2>
+
       <div class="text-lead col-span-12 lg:col-span-8 2xl:col-span-6">
         <SanityContent :blocks="step.content"></SanityContent>
       </div>
@@ -110,24 +106,12 @@ function prevStep() {
   }
 }
 
-const serializers = {
-  marks: {
-    // This is how to access a component registered by `@nuxt/components`
-    editable: resolveComponent('CommonEditable'),
-    code: resolveComponent('CommonCode'),
-  },
-
-}
 </script>
 
 <style scoped lang="scss">
 .modal-enter-active,
 .modal-leave-active {
   transition: all 0.5s ease;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
 }
 
 .modal-enter-from,
@@ -136,4 +120,8 @@ const serializers = {
   transform: translateY(100%);
 }
 
+
+.step-label {
+  @apply bg-primary text-fix-mono font-mono font-bold absolute p-1 top-0 left-0 uppercase text-white select-none
+}
 </style>

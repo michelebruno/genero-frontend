@@ -12,10 +12,8 @@
             <h1 class="text-display-1 leading-none font-semibold col-span-10 pb-sm">
               <span>{{ currentFlow?.title }}</span>
             </h1>
-            <div class="col-span-5 text-lead prose max-w-full text-white prose-p:my-2">
-              <SanityContent :blocks="currentFlow.description"/>
-            </div>
-
+            <WorkflowContent :blocks="currentFlow.description"
+                             class="col-span-5 text-white"/>
           </div>
 
           <div class="col-span-6" v-if="currentFlow?.description">

@@ -45,10 +45,6 @@ const route = useRoute();
 const store = useStore();
 const workflowStore = useWorkflowsStore()
 
-definePageMeta({
-  title: workflowStore.currentFlow.title
-})
-
 const isWorkflow = computed(() => !!route.params.slug)
 
 

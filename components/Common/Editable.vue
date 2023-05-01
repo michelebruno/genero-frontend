@@ -43,7 +43,9 @@ const value = computed({
     opacity: 0;
   }
 }
-
+span {
+  @apply ring-0
+}
 span::after {
   @apply bg-primary;
 
@@ -51,8 +53,8 @@ span::after {
   animation: cursor-blink 1.5s steps(2) infinite;
 
   content: "";
-  width: 5px;
-  height: 20px;
+  width: 2px;
+  height: .9em;
   display: inline-block;
 }
 </style>
