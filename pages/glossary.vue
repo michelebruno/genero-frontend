@@ -2,15 +2,11 @@
 
   <PageHeading>
     Glossary
-    <template #description>
-      Lorem ipsum dolor sit amet consectetur. Iaculis nibh euismod leo pulvinar in. At malesuada cursus vel gravida.
-      Turpis dui et blandit vulputate eu. Quisque ut ut hac elit non lorem.
-    </template>
   </PageHeading>
   <article>
-    <div class="grid grid-cols-12 gap-x-md gap-y-lg ">
+    <div class="grid grid-cols-12 gap-x-md gap-y-lg px-outsides ">
       <template v-for="[letter,words] in alphabet.entries()">
-        <div v-if="words.length" class="col-start-4 sticky top-lg text-right">
+        <div v-if="words.length" class="col-start-4 glossary-letter-wrapper text-right">
           <div
               class="glossary-letter ">
             {{
@@ -55,7 +51,13 @@ for (const [key, word] of glossary.value.entries()) {
 
 <style scoped lang="scss">
 .glossary-letter {
-  @apply inline-block text-5xl font-mono font-bold bg-primary aspect-square p-sm w-20 h-20 inline-flex items-center justify-center  normal-case text-white
+  @apply inline-block text-5xl font-mono font-bold bg-primary aspect-square p-sm w-20 h-20 inline-flex items-center justify-center  normal-case text-white;
+
+  &-wrapper {
+    @apply sticky;
+
+    top: calc(var(--spacing-lg) + var(--spacing-navbar));
+  }
 }
 
 .word {
@@ -68,4 +70,5 @@ for (const [key, word] of glossary.value.entries()) {
     line-height: .6;
   }
 }
+
 </style>

@@ -12,6 +12,9 @@ $variables: (
                         "default": "24px",
                         "xl":"50px"
                 ),
+                "navbar": (
+                        "default": "85px",
+                ),
                 "sm": (
                         "default": "12px",
                         "md":"15px"
@@ -64,6 +67,9 @@ $variables: (
                 "h2" : (
                         "default": "48px"
                 ),
+                "h3" : (
+                        "default": "32px"
+                ),
                 "display-1" : (
                         "default": "80px",
                         "2xl": "120px",
@@ -72,6 +78,11 @@ $variables: (
                         "default": "50px",
                         "2xl": "66px",
                 ),
+        ),
+        "leading": (
+                "lead": (
+                        "default" : 1.5
+                )
         ),
         'transition-duration' : (
                 "default": (
@@ -154,6 +165,9 @@ $variables: (
 
 
 @layer utilities {
+  .grid {
+    @apply gap-md;
+  }
   .box {
     @apply bg-white border-2 px-sm drop-shadow-block-md shadow-primary hover:drop-shadow-block-sm active:drop-shadow-block-xs;
 

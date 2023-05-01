@@ -5,18 +5,14 @@
     <div id="slide-wrapper" class="flex-grow relative">
       <Transition :name="`slide-${direction}`">
         <div v-if="status === 'onboarding'"
-             class="relative border border-primary bg-primary-light p-10 grid grid-cols-12 gap-10 text-white my-md">
-          <div class="absolute z-0 inset-0 w-full h-full bg-primary"></div>
+             class="relative border border-primary bg-primary-light p-10 grid grid-cols-12 gap-10 text-white my-md pt-xl">
 
-          <SanityImage :asset-id="currentFlow.coverImg?.asset?._ref"
-                       class="absolute z-0 inset-0 w-full h-full object-center object-cover opacity-50 mix-blend-luminosity"
-                       auto="format"/>
 
-          <div class="col-span-12 grid grid-cols-10 relative auto-rows-min my-auto">
+          <div class="col-span-12 grid grid-cols-10 relative z-10 auto-rows-min ">
             <h1 class="text-display-1 leading-none font-semibold col-span-10 pb-sm">
               <span>{{ currentFlow?.title }}</span>
             </h1>
-            <div class="col-span-5 text-lead">
+            <div class="col-span-5 text-lead prose max-w-full text-white prose-p:my-2">
               <SanityContent :blocks="currentFlow.description"/>
             </div>
 
@@ -25,7 +21,11 @@
           <div class="col-span-6" v-if="currentFlow?.description">
             <SanityContent :blocks="currentFlow?.description"/>
           </div>
+          <div class="absolute z-0 inset-0 w-full h-full bg-primary"></div>
 
+          <SanityImage :asset-id="currentFlow.coverImg?.asset?._ref"
+                       class="absolute z-0 inset-0 w-full h-full object-center object-cover opacity-50 mix-blend-luminosity"
+                       auto="format"/>
         </div>
 
         <div v-else class="py-md overflow-hidden" :key="workflowsStore.currentStep?._id">

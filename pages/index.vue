@@ -1,15 +1,19 @@
 <template>
-
-  <div class="h-screen px-outsides">
-    <h1 class="text-display-2 font-semibold">
-      Explore design workflows with
-      <span class="text-fix-mono font-mono">generative AI</span>
-      and share your learnings
-    </h1>
-    <NuxtLink :to="$genero.getWorkflowLink(featuredFlows[0])">
-      <UiButton is="a" primary>Open workflows</UiButton>
-    </NuxtLink>
+  
+  <div class="h-screen px-outsides my-navbar flex items-center">
+    <div class="w-3/4">
+      <h1 class="text-display-2 font-semibold">
+        Explore design workflows with
+        <span class="text-fix-mono font-mono">generative AI</span>
+        and share your learnings
+      </h1>
+      <NuxtLink :to="$genero.getWorkflowLink(featuredFlows[0])">
+        <UiButton is="a" primary>Open workflows</UiButton>
+      </NuxtLink>
+    </div>
   </div>
+
+
 
   <div class="py-xl">
     <h2 id="featured-workflows" class="font-mono">

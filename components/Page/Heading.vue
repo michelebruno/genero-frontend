@@ -1,12 +1,12 @@
 <template>
 
-  <header class="mx-md grid grid-cols-12 gap-x">
-    <h1 class="col-span-8 text-display-2 text-primary font-bold">
+  <header class="grid grid-cols-12 gap-x pt-lg pb-xl my-navbar px-outsides">
+    <h1 class="col-span-8 xl:col-start-3 text-display-1 text-primary font-bold  uppercase text-center">
       <span class="text-fix-mono font-mono">
               <slot></slot>
       </span>
     </h1>
-    <div v-if="$slots.description" class="col-span-8">
+    <div v-if="$slots.description" class="col-span-8 xl:col-start-3 text-lead text-justify">
       <slot name="description"/>
     </div>
   </header>

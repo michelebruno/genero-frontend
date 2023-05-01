@@ -1,28 +1,31 @@
 <template>
-  <div :class="['relative', isWorkflow && 'workflow-wrapper transition-[background-color]', store.theme==='dark' && 'bg-primary']">
-    <nav v-if="isWorkflow" :class="[store.theme === 'dark' && 'text-white', 'group !pb-0 !flex-shrink !flex-grow-0 grid grid-cols-[1fr_auto_1fr]']">
+  <div
+      :class="['relative', isWorkflow && 'workflow-wrapper transition-[background-color]', store.theme==='dark' && 'bg-primary']">
+    <nav v-if="isWorkflow"
+         :class="[store.theme === 'dark' && 'text-white', 'group !pb-0 !flex-shrink !flex-grow-0 grid grid-cols-[1fr_auto_1fr]']">
       <div id="logo-wrapper">
         <GeneroLogo/>
       </div>
-      <div class="opacity-0 -translate-y-full duration-1000 group-hover:translate-y-0 group-hover:opacity-100 transition select-none ">
+      <div
+          class="opacity-0 -translate-y-full duration-1000 group-hover:translate-y-0 group-hover:opacity-100 transition select-none ">
         <span>
-          {{workflowStore.currentFlow.title}}
+          {{ workflowStore.currentFlow.title }}
         </span>
       </div>
       <div class="text-right ">
         <NuxtLink class="text-fix-mono font-mono font-bold p-sm" to="/" title="Exit">X</NuxtLink>
       </div>
     </nav>
-    <nav v-else class="flex ">
+    <nav v-else class="flex fixed left-0 right-0 w-full top-0 bg-white z-30 border-b border-black">
       <div id="logo-wrapper">
         <NuxtLink to="/">
           <GeneroLogo/>
         </NuxtLink>
       </div>
-      <div>
-        <NuxtLink to="/workflows">Workflows</NuxtLink>
-        <NuxtLink to="/tools">AI tools</NuxtLink>
-        <NuxtLink to="/glossary">Glossary</NuxtLink>
+      <div class="flex gap-x-md">
+        <NuxtLink active-class="font-semibold text-primary" class="hover:text-primary" to="/workflows">Workflows</NuxtLink>
+        <NuxtLink active-class="font-semibold text-primary" class="hover:text-primary" to="/tools">AI tools</NuxtLink>
+        <NuxtLink active-class="font-semibold text-primary" class="hover:text-primary" to="/glossary">Glossary</NuxtLink>
       </div>
     </nav>
     <NuxtPage/>
@@ -46,7 +49,7 @@ definePageMeta({
   title: workflowStore.currentFlow.title
 })
 
-const isWorkflow = computed(() =>!!route.params.slug)
+const isWorkflow = computed(() => !!route.params.slug)
 
 
 </script>
@@ -110,7 +113,7 @@ const isWorkflow = computed(() =>!!route.params.slug)
 }
 
 nav {
-  @apply py-sm px-outsides flex-shrink flex-grow-0 w-full justify-between items-center
+  @apply py-md px-outsides flex-shrink flex-grow-0 w-full justify-between items-center
 }
 
 .workflow-wrapper {

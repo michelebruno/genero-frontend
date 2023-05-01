@@ -1,31 +1,36 @@
 <template>
-  <div class="border-primary border-2 p-md grid grid-cols-12 h-full pt-xl relative gap-y-md auto-rows-max"
+  <div class="border-primary border-2 p-md flex flex-col h-full pt-xl relative gap-y-md auto-rows-min"
        v-if="step.layout === 'choose'">
-    <div class="col-span-6 col-start-4 text-center">
-      <h2 class="text-display-2 font-bold mb-sm">{{ step.title }}</h2>
-      <div class="prose prose-p:text-lead prose-p:my-0 max-w-full">
-        <SanityContent :blocks="step.content"/>
+    <div class="grid grid-cols-12">
+      <div class="col-span-6 col-start-4 text-center w-full">
+        <h2 class="text-display-2 font-bold mb-sm">{{ step.title }}</h2>
+        <div class="prose prose-p:text-lead prose-p:my-sm max-w-full">
+          <SanityContent :blocks="step.content"/>
+        </div>
       </div>
     </div>
-    <div class="col-span-12 relative flex items-center">
-      <Transition name="modal" mode="out-in">
-        <SanityImage v-if="step?.image && !showModal" :asset-id="step?.image?.asset._ref"
-                     class="mx-auto absolute inset-0 object-contain w-full h-full" auto="format"/>
-        <div v-else-if="showModal"
-             class="bg-white border-2 border-primary max-w-screen-lg mx-auto min-h-[30ch]">
+    <div class="grid grid-cols-12 w-full flex-shrink-0 flex-grow">
+      <div class="col-span-12 relative flex items-center w-full my-lg">
+        <Transition name="modal" mode="out-in">
+          <SanityImage v-if="step?.image && !showModal" :asset-id="step?.image?.asset._ref"
+                       class="mx-auto absolute inset-0 object-contain w-full h-full" auto="format"/>
+          <div v-else-if="showModal"
+               class="bg-white border-2 border-primary max-w-screen-lg mx-auto min-h-[30ch] absolute left-0 right-0">
 
-          <div class="bg-primary text-white px-md py-sm">
+            <div class="bg-primary text-white px-md py-sm">
 
-            <h3 class="font-mono text-fix-mono font-bold mb-sm uppercase !mb-0">
-              CHOOSE ONE OF THESE METHODS <span class="text-red-600">*</span>
-            </h3>
+              <h3 class="font-mono text-fix-mono font-bold mb-sm uppercase !mb-0">
+                CHOOSE ONE OF THESE METHODS <span class="text-red-600">*</span>
+              </h3>
 
+            </div>
+            <div class="flex gap-x-md p-md">
+              <WorkflowItem v-for="item in step.items" v-bind="item"/>
+            </div>
           </div>
-          <div class="flex gap-x-md p-md">
-            <WorkflowItem v-for="item in step.items" v-bind="item"/>
-          </div>
-        </div>
-      </Transition>
+        </Transition>
+
+      </div>
 
     </div>
   </div>
