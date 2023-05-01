@@ -4,7 +4,7 @@
     Glossary
   </PageHeading>
   <article>
-    <div class="grid grid-cols-12 gap-x-md gap-y-lg px-outsides ">
+    <div class="grid grid-cols-12 gap-x-md gap-y-[45px] px-outsides ">
       <template v-for="[letter,words] in alphabet.entries()">
         <div v-if="words.length" class="col-start-4 glossary-letter-wrapper text-right">
           <div

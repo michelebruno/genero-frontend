@@ -1,7 +1,7 @@
 <template>
 
-  <header class="grid grid-cols-12 gap-x pt-lg pb-xl my-navbar px-outsides">
-    <h1 class="col-span-8 xl:col-start-3 text-display-1 text-primary font-bold  uppercase text-center">
+  <header class="grid grid-cols-12 gap-x pt-lg pb-xl mt-navbar px-outsides">
+    <h1 class="col-span-8 xl:col-start-3 text-display-1 text-primary font-bold text-center uppercase text-center">
       <span class="text-fix-mono font-mono">
               <slot></slot>
       </span>
