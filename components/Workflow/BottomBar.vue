@@ -1,20 +1,28 @@
 <template>
   <div class="flex gap-x-4 h-[90px]">
-    <div class="aspect-[136/90] border-2 border-black bg-white">
+    <div class="aspect-[136/90] border-2 border-black bg-white" v-show="false">
       <img src="~assets/images/net.png" class="h-full w-full object-fill">
+    </div>
+    <div>
+      <UiButton v-if="status === 'started'" class="block h-full px-sm bg-white border-2 aspect-square"
+                @click="handlePrev">
+        ←
+      </UiButton>
     </div>
     <div class="flex-grow border-2 border-black bg-white">
       <Transition appear name="stepper">
         <div class="flex gap-x-sm items-center justify-center h-full"
-             v-show="!['section', 'options'].includes(currentStep.type) && status === 'started'">
+             ref="stepperRef"
+             v-show="!['section', 'options'].includes(currentStep.layout) && status === 'started'">
           <div class="flex" v-if="prevStep">
             <WorkflowPill layout="prev">{{ prevStep?.shortTitle || prevStep.title }}</WorkflowPill>
           </div>
           <div v-if="prevStep">
             >
           </div>
-          <div v-if="Array.isArray(currentStep)" class="flex max-w-[30ch] gap-1 justify-center flex-wrap">
-            <WorkflowPill v-for="choice in currentStep" :layout="selectedItem?._id === choice._id && 'active'">
+          <div v-if="Array.isArray(currentStep)" class="flex max-w-[30ch] gap-1 justify-center flex-wrap"
+               ref="currentPillRef">
+            <WorkflowPill v-for="choice in currentStep" :layout="selectedItem?._id === choice._id ? 'active':undefined">
               {{ choice?.shortTitle || choice.title }}
             </WorkflowPill>
           </div>
@@ -31,7 +39,6 @@
       </Transition>
     </div>
     <div class="flex bg-white" ref="navButtons">
-      <UiButton v-if="status === 'started'" class="block h-full px-sm bg-white border-2" @click="handlePrev">←</UiButton>
       <UiButton class="block h-full aspect-square border-2" @click="handleNext" primary :disabled="isNextDisabled"
                 :theme="status === 'started' && 'dark'  ">
 
@@ -46,7 +53,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 
 import {useWorkflowsStore} from "../../store/workflows";
 import {storeToRefs} from "pinia";
@@ -64,6 +71,8 @@ function handlePrev() {
 }
 
 const navButtons = ref(null)
+const currentPillRef = ref(null)
+const stepperRef = ref(null)
 
 const isNextDisabled = computed(() => {
   if (workflowsStore.currentStep.layout === 'choose' && !showModal.value) {
@@ -87,6 +96,18 @@ const prevStep = computed(() => {
   return prevSteps.value.filter(n => !['options'].includes(n.layout)).slice(-1)[0]
 })
 
+watch(currentStep, () => {
+  let stepperWidth = 0;
+
+  stepperRef?.value?.childNodes.forEach((e: Element) => {
+    console.log(e.clientWidth)
+    stepperWidth += e.clientWidth
+  })
+
+
+
+  console.log(stepperWidth, stepperRef.value)
+})
 
 </script>
 

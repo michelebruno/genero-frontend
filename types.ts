@@ -141,6 +141,13 @@ export interface Step extends SanityDocument {
   title?: string;
 
   /**
+   * Titolo breve — `string`
+   *
+   *
+   */
+  shortTitle?: string;
+
+  /**
    * Description — `content`
    *
    *
@@ -155,11 +162,18 @@ export interface Step extends SanityDocument {
   label?: string;
 
   /**
-   * type — `string`
+   * layout — `string`
    *
    *
    */
-  type?: "choose" | "text" | "know" | "section" | "options";
+  layout?: "choose" | "text" | "know" | "section" | "options";
+
+  /**
+   * theme — `string`
+   *
+   *
+   */
+  theme?: "default" | "blue" | "green";
 
   /**
    * Illustrazione — `image`

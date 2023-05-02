@@ -1,11 +1,11 @@
 import {defineField, defineType} from "sanity";
 import {Step} from "../../types";
 
-function hideIf(type: Step['type'] | Step['type'][] = 'choose') {
+function hideIf(type: Step['layout'] | Step['layout'][] = 'choose') {
 
   let arr = Array.isArray(type) ? type : [type]
 
-  return ({document}) => arr.includes(document.type)
+  return ({document}) => arr.includes(document.layout)
 }
 
 export default [
@@ -223,6 +223,16 @@ export default [
         }
       }),
       defineField({
+        type: 'string',
+        name: 'theme',
+        options: {
+          layout: "radio",
+          list: [
+            'default', 'blue', 'green'
+          ]
+        }
+      }),
+      defineField({
         name: 'image',
         type: 'image',
         title: 'Illustrazione'
@@ -244,7 +254,7 @@ export default [
       defineField({
         type: 'array',
         name: 'items',
-        hidden: hideIf(['text', 'options']),
+        hidden: hideIf(['text']),
         of: [
           {
             type: 'reference', to: [{type: 'item'}]
@@ -254,7 +264,7 @@ export default [
       defineField({
         type: 'array',
         name: 'options',
-        hidden: ({document}) => document.type !== 'options',
+        hidden: ({document}) => document.layout !== 'options',
         of: [
           {
             type: 'object',

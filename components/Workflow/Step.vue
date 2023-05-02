@@ -13,7 +13,7 @@
           <SanityImage v-if="step?.image && !showModal" :asset-id="step?.image?.asset?._ref"
                        class="mx-auto absolute inset-0 object-contain w-full h-full object-top" auto="format"/>
           <div v-else-if="showModal"
-               class="bg-white border-2 border-primary max-w-screen-lg mx-auto min-h-[30ch] absolute left-0 right-0">
+               class="bg-white border-2 border-primary max-w-screen-xl mx-auto min-h-[30ch] absolute left-0 right-0">
             <div class="bg-primary text-white px-md py-sm">
               <h3 class="font-mono text-fix-mono font-bold mb-sm uppercase !mb-0">
                 CHOOSE ONE OF THESE METHODS <span class="text-red-600">*</span>
@@ -67,7 +67,10 @@
   <div v-else-if="step.layout === 'options'" class=" flex w-full h-full items-center justify-center">
     <div class="border-black border-2 max-w-screen-sm w-full mx-auto h-[50vh] bg-white overflow-hidden ">
       <div class="bg-black text-white pl-sm h-8 flex w-full items-center">
-        <h3 class="font-mono font-bold text-fix-mono uppercase ">Optional steps you could use</h3>
+        <h3 class="font-mono font-bold text-fix-mono uppercase ">
+          <template v-if="step.label">{{ label }}</template>
+          <template v-else>Optional steps you could use</template>
+        </h3>
       </div>
       <div class="flex-grow flex-shrink max-h-full overflow-scroll scrollbar-none pb-8">
         <WorkflowAccordion v-for="item in step.options" v-bind="item" :open="activeTab === item._key" :key="item._key"

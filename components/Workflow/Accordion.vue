@@ -1,7 +1,7 @@
 <template>
 
   <div class="bg-white">
-    <div class="p-sm gap-sm border-black border-b-2 flex items-center justify-between w-full" @click="$emit('toggle')">
+    <div class="p-sm gap-sm border-black border-b-2 flex items-center justify-between w-full cursor-pointer" @click="$emit('toggle')">
       <p class="font-mono font-bold text-xl text-fix-mono uppercase">
         {{ title }}
       </p>
@@ -14,7 +14,7 @@
       </div>
 
     </div>
-    <div class="p-sm bg-white text-black grid gap-y-4 border-b border-black" v-show="props.open">
+    <div class="p-sm bg-white text-black grid gap-y-4 border-b-2 border-black" v-show="props.open">
       <h3 class="text-h2 font-semibold">
         {{ title }}
       </h3>

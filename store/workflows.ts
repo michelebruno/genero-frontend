@@ -3,6 +3,7 @@ import {Flow, Input, Item, Step, Topic} from "~/studio/schema";
 import {SanityDocument, SanityReference} from "@sanity/client";
 import _, {words} from "lodash";
 import {useStore} from "~/store/store";
+import {SanityKeyedReference} from "sanity-codegen";
 
 // You can name the return value of `defineStore()` anything you want,
 // but it's best to use the name of the store and surround it with `use`
@@ -90,7 +91,9 @@ export const useWorkflowsStore = defineStore('workflows', {
       }
 
       if (['section', 'options'].includes(this.currentStep?.layout)) {
-        store.setDarkTheme()
+        if (this.currentStep?.theme && this.currentStep?.theme !== 'default') {
+          store.theme = this.currentStep.theme
+        } else store.setDarkTheme()
       } else store.setLightTheme()
 
     },
@@ -115,6 +118,7 @@ export const useWorkflowsStore = defineStore('workflows', {
     },
     goNext() {
       this.direction = 'forward'
+
       if (this.status === 'onboarding') {
         this.status = 'started'
         this.setTheme()
@@ -125,8 +129,14 @@ export const useWorkflowsStore = defineStore('workflows', {
 
       } else if (this.currentStep?.layout === 'choose' && this.currentStep?.items && !this.showModal) {
         this.showModal = true;
-        this.setTheme()
+        this.setTheme();
+        return true;
+      } else if (!this.nextSteps.length) {
 
+        this.status = 'final';
+        this.setTheme();
+
+        return true;
       } else {
 
         const curr = _.head(this.nextSteps)
@@ -144,6 +154,7 @@ export const useWorkflowsStore = defineStore('workflows', {
     },
     getItem(value: Item | string | SanityReference) {
       if (!value) {
+        console.warn("No item passed as argument", value)
         return null;
       }
 
@@ -180,7 +191,9 @@ export const useWorkflowsStore = defineStore('workflows', {
       return this.steps.get(id) || null
 
     },
-    wasItChosen(item: Item | SanityReference | string | Array) {
+    wasItChosen(item: Item | SanityKeyedReference<Item>[] | string | Array) {
+
+      console.log("Called was it chosen", item)
       if (Array.isArray(item)) {
         console.log("Array of items", item)
         return item.map(i => this.wasItChosen(i)).filter(b => b).length
