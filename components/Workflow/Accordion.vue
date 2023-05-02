@@ -19,7 +19,7 @@
         {{ title }}
       </h3>
       <div class="">
-        <SanityContent :blocks="content"/>
+        <WorkflowContent :blocks="content" layout="normal"/>
       </div>
       <div class="text-right">
         <UiButton @click="handleClick" :primary="isAdded">
@@ -69,7 +69,6 @@ function handleClick() {
     )
   } else {
     const addThisItem = workflowStore.getStep(props.step?._ref);
-    console.log(addThisItem)
     workflowStore.nextSteps.splice(1, 0, addThisItem)
   }
 }

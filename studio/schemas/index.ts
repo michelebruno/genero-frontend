@@ -252,6 +252,19 @@ export default [
         validation: R => R.required()
       }),
       defineField({
+        name: 'toolsLabel',
+        type: 'string',
+        hidden: hideIf(['choose', 'text', 'section']),
+      }),
+      defineField({
+        name: 'tools',
+        type: "array",
+        hidden: hideIf(['choose', 'text', 'section']),
+        of: [{
+          type: 'tool'
+        }]
+      }),
+      defineField({
         type: 'array',
         name: 'items',
         hidden: hideIf(['text']),
@@ -340,6 +353,11 @@ export default [
         validation: R => R.required()
       }),
       defineField({
+        name: 'recommended',
+        type: 'boolean',
+        title: 'Raccomandato'
+      }),
+      defineField({
         name: 'description',
         type: 'string',
         title: "Description"
@@ -376,6 +394,29 @@ export default [
   }),
 
   defineType({
+    name: 'tool',
+    type: 'document',
+    title: 'Tool',
+    fields: [
+      defineField({
+        name: 'title',
+        type: 'string',
+        title: 'Title'
+      }),
+      defineField({
+        name: 'shortDescription',
+        type: 'string',
+        title: 'Description'
+      }),
+      defineField({
+        name: 'link',
+        type: 'url',
+        title: 'Link'
+      })
+    ]
+  }),
+
+  defineType({
     name: 'input',
     title: 'Input',
     type: "document",
@@ -396,7 +437,7 @@ export default [
         name: 'title',
         type: 'string',
         title: 'Title'
-      })
+      }),
     ]
   }),
 

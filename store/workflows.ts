@@ -147,7 +147,6 @@ export const useWorkflowsStore = defineStore('workflows', {
     },
     getItem(value: Item | string | SanityReference) {
       if (!value) {
-        console.warn("No item passed as argument", value)
         return null;
       }
 
@@ -186,19 +185,14 @@ export const useWorkflowsStore = defineStore('workflows', {
     },
     wasItChosen(item: Item | SanityKeyedReference<Item>[] | string | Array) {
 
-      console.log("Called was it chosen", item)
       if (Array.isArray(item)) {
-        console.log("Array of items", item)
         return item.map(i => this.wasItChosen(i)).filter(b => b).length
       }
 
-      console.log('Wooo')
       for (const choice of this.choices.values()) {
         if (choice._id === this.getItem(item)?._id) {
-          console.log("HEeeey")
           return true;
         }
-        console.log('Noo', item, this.getItem(item), choice)
 
       }
 
@@ -218,7 +212,6 @@ export const useWorkflowsStore = defineStore('workflows', {
       } else if (value._id) {
         id = value._id
       } else {
-        console.warn("Error parsing workflow id")
         return false
       }
       return this.flows.find(i => ([i._id, i.slug?.current].includes(id))) || null

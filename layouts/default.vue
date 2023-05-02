@@ -1,6 +1,12 @@
 <template>
   <div
-      :class="['relative', isWorkflow && 'workflow-wrapper transition-[background-color]', store.theme==='dark' && 'bg-primary']">
+      :class="['relative', isWorkflow && 'workflow-wrapper transition-[background-color]',
+      workflowStore.currentStep?.theme === 'green'
+        ? 'bg-green'
+        :  store.theme ==='dark'
+          ? 'bg-primary'
+          : undefined
+       ]">
     <nav v-if="isWorkflow"
          :class="[store.theme === 'dark' && 'text-white', 'group !pb-0 !flex-shrink !flex-grow-0 grid grid-cols-[1fr_auto_1fr]']">
       <div id="logo-wrapper">
@@ -23,9 +29,11 @@
         </NuxtLink>
       </div>
       <div class="flex gap-x-md">
-        <NuxtLink active-class="font-semibold text-primary" class="hover:text-primary" to="/workflows">Workflows</NuxtLink>
+        <NuxtLink active-class="font-semibold text-primary" class="hover:text-primary" to="/workflows">Workflows
+        </NuxtLink>
         <NuxtLink active-class="font-semibold text-primary" class="hover:text-primary" to="/tools">AI tools</NuxtLink>
-        <NuxtLink active-class="font-semibold text-primary" class="hover:text-primary" to="/glossary">Glossary</NuxtLink>
+        <NuxtLink active-class="font-semibold text-primary" class="hover:text-primary" to="/glossary">Glossary
+        </NuxtLink>
       </div>
     </nav>
     <NuxtPage/>

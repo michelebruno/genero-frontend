@@ -202,6 +202,20 @@ export interface Step extends SanityDocument {
   slug?: { _type: "slug"; current: string };
 
   /**
+   * toolsLabel — `string`
+   *
+   *
+   */
+  toolsLabel?: string;
+
+  /**
+   * tools — `array`
+   *
+   *
+   */
+  tools?: Array<SanityKeyed<Tool>>;
+
+  /**
    * items — `array`
    *
    *
@@ -283,6 +297,13 @@ export interface Item extends SanityDocument {
   slug?: { _type: "slug"; current: string };
 
   /**
+   * Raccomandato — `boolean`
+   *
+   *
+   */
+  recommended?: boolean;
+
+  /**
    * Description — `string`
    *
    *
@@ -309,6 +330,36 @@ export interface Item extends SanityDocument {
    *
    */
   hiddenIf?: Array<SanityKeyedReference<Item>>;
+}
+
+/**
+ * Tool
+ *
+ *
+ */
+export interface Tool extends SanityDocument {
+  _type: "tool";
+
+  /**
+   * Title — `string`
+   *
+   *
+   */
+  title?: string;
+
+  /**
+   * Description — `string`
+   *
+   *
+   */
+  shortDescription?: string;
+
+  /**
+   * Link — `url`
+   *
+   *
+   */
+  link?: string;
 }
 
 /**
@@ -391,4 +442,12 @@ export interface Glossary extends SanityDocument {
 
 export type Content = Array<SanityKeyed<SanityBlock>>;
 
-export type Documents = Flow | Step | Item | Input | Topic | Field | Glossary;
+export type Documents =
+  | Flow
+  | Step
+  | Item
+  | Tool
+  | Input
+  | Topic
+  | Field
+  | Glossary;

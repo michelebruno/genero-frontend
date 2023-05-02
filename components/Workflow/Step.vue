@@ -33,10 +33,17 @@
     <div class="col-span-8 col-start-3 2xl:col-span-6 2xl:col-start-4 text-center">
       <h2 class="text-7xl font-bold mb-sm">{{ step.title }}</h2>
       <WorkflowContent :blocks="step.content"/>
+      <div v-if="step.tools.length" class="pt-md ">
+        <span class="inline-block mx-auto text-fix-mono font-mono uppercase font-bold bg-primary text-white p-1 mb-sm">{{ step.toolsLabel }}</span>
+        <div class="grid grid-cols-2">
+          <UiTool v-for="tool in step.tools" v-bind="tool"/>
+        </div>
+      </div>
     </div>
     <span v-if="step?.label" class="step-label">
       {{ step.label }}
     </span>
+
   </div>
   <div v-else-if="step.layout === 'text'" class="border-primary border-2 p-lg grid grid-cols-12 h-full relative">
     <div v-if="step.label" class="step-label">{{ step.label }}</div>
@@ -49,7 +56,8 @@
 
     </div>
   </div>
-  <div v-else-if="step.layout === 'section'" class="h-full flex items-end text-white pb-lg">
+  <div v-else-if="step.layout === 'section'"
+       :class="['h-full flex items-end pb-lg', step.theme === 'green' ? 'text-black' :'text-white'  ]">
     <div class="grid auto-rows-min grid-cols-12">
       <div class="text-xl col-span-10">
         <p class="font-mono text-fix-mono font-bold">0{{ currentSectionNumber }}</p>

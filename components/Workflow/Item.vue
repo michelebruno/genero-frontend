@@ -10,9 +10,10 @@
           <input type="radio" class="h-5 aspect-square mt-1.5" :aria-selected="selected" :checked="selected"/>
           <h3 class="font-semibold mb-2 w-full">{{ shortTitle || title }}</h3>
         </div>
-        <WorkflowContent v-if="content" :blocks="content" layout="small" :class="[disabled && 'prose-p:!text-gray-400']"/>
-        <p v-else-if="description"  :class="[disabled && 'prose-p:!text-gray-400']">
-          {{description}}
+        <WorkflowContent v-if="content" :blocks="content" layout="small"
+                         :class="[disabled && 'prose-p:!text-gray-400']"/>
+        <p v-else-if="description" :class="[disabled && 'prose-p:!text-gray-400']">
+          {{ description }}
         </p>
       </div>
       <div v-if="disabled"
@@ -56,6 +57,10 @@ const item: ComputedVariable<Item | null> = computed(() => workflowStore.getItem
 const disabled = computed(() => {
   return workflowStore.wasItChosen(item.value.hiddenIf)
 })
+
+if (item.value.recommended && !disabled.value) {
+  workflowStore.setSelectedItem(props?._id)
+}
 
 const selected = computed(() => workflowStore.isItemSelected(props._id))
 

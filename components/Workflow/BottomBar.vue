@@ -57,6 +57,7 @@
 
 import {useWorkflowsStore} from "../../store/workflows";
 import {storeToRefs} from "pinia";
+import {onMounted, onUnmounted} from "#imports";
 
 const workflowsStore = useWorkflowsStore()
 const {getItem, goNext, goBack} = workflowsStore
@@ -100,13 +101,34 @@ watch(currentStep, () => {
   let stepperWidth = 0;
 
   stepperRef?.value?.childNodes.forEach((e: Element) => {
-    console.log(e.clientWidth)
     stepperWidth += e.clientWidth
   })
 
-
-  console.log(stepperWidth, stepperRef.value)
 })
+
+
+function keyListener(e) {
+
+  e = e || window.event;
+
+  if (e.keyCode == '38') {
+    // up arrow
+  } else if (e.keyCode == '40') {
+    // down arrow
+  } else if (e.keyCode == '37') {
+    // left arrow
+    goBack()
+  } else if (e.keyCode == '39') {
+    // right arrow
+    !isNextDisabled.value && goNext()
+  }
+
+}
+
+onMounted(() => window?.addEventListener('keydown', keyListener)
+)
+
+onUnmounted(() => window?.removeEventListener('keydown', keyListener))
 
 </script>
 

@@ -11,12 +11,13 @@ module.exports = {
             }, spacing: {
                 ...Object.fromEntries(['sm', 'md', 'lg', 'xl', 'step', 'outsides', 'navbar'].map(s => [s, `var(--spacing-${s})`]))
             }, fontSize: {
-                "fix-mono": ['1.5em', .6],
+                "fix-mono": ['1.5em',1],
                 ...Object.fromEntries(['lead', 'display-1', 'display-2', 'h2', 'h3', 'sm'].map(s => [s, [`var(--font-size-${s})`, `var(--leading-${s}, 1.15)`,]]))
             }, colors: {
                 "primary": {
                     DEFAULT: "var(--colors-primary)", light: "var(--colors-primary-light)",
                 },
+                green: '#43D200'
             }, dropShadow: {
                 "block-xs": "var(--drop-shadow-block-xs)",
                 "block-sm": "var(--drop-shadow-block-sm)",
