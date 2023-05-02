@@ -25,12 +25,34 @@
                        class="absolute z-0 inset-0 w-full h-full object-center object-cover opacity-50 mix-blend-luminosity"
                        auto="format"/>
         </div>
+        <div v-else-if="status === 'final'"
+             class="relative border border-primary bg-primary-light p-10 grid grid-cols-12 gap-10 text-white my-md pt-xl">
 
-        <div v-else class="py-md overflow-hidden" :key="workflowsStore.currentStep?._id">
+
+          <div class="col-span-12 grid grid-cols-10 relative z-10 auto-rows-min ">
+            <h1 class="text-display-1 leading-none font-semibold col-span-10 pb-sm">
+              <span>{{ currentFlow?.title }}</span>
+            </h1>
+            <WorkflowContent :blocks="currentFlow.description"
+                             class="col-span-5 text-white"/>
+          </div>
+
+          <div class="col-span-6" v-if="currentFlow?.description">
+            <SanityContent :blocks="currentFlow?.description"/>
+          </div>
+          <div class="absolute z-0 inset-0 w-full h-full bg-primary"></div>
+
+          <SanityImage :asset-id="currentFlow.coverImg?.asset?._ref"
+                       class="absolute z-0 inset-0 w-full h-full object-center object-cover opacity-50 mix-blend-luminosity"
+                       auto="format"/>
+        </div>
+
+        <div v-else-if="status === 'started'" class="py-md overflow-hidden" :key="workflowsStore.currentStep?._id">
 
           <WorkflowStep :step="workflowsStore.currentStep"
                         class="col-span-12 flex-1 overflow-hidden"/>
         </div>
+
       </Transition>
 
     </div>
@@ -61,13 +83,6 @@ workflowsStore.setCurrentFlow(route?.params?.slug)
 function handleWorkflowChange(e: Event) {
   setCurrentFlow(e.target?.value)
 }
-
-const currentFlowId = computed({
-  get: () => {
-    return currentFlow.value?._id
-  },
-  setter: (value) => setCurrentFlow(value)
-})
 
 
 definePageMeta({

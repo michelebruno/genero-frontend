@@ -31,7 +31,6 @@ const {primary, disabled, theme} = defineProps({
 const showDisabled = ref(false)
 
 function handleMouseEnter() {
-  console.log('entered')
   showDisabled.value = !!disabled
 }
 </script>

@@ -40,7 +40,7 @@ export const useWorkflowsStore = defineStore('workflows', {
     },
     currentStep: (s): Step | undefined => {
 
-      if (typeof s.nextSteps === 'undefined') return false;
+      if (typeof s.nextSteps === 'undefined' || !s.nextSteps.length) return false;
 
       const curr = s.nextSteps[0]
 
@@ -122,29 +122,22 @@ export const useWorkflowsStore = defineStore('workflows', {
       if (this.status === 'onboarding') {
         this.status = 'started'
         this.setTheme()
-
       } else if (this.isLastStep) {
         this.status = 'final'
         this.setTheme()
-
       } else if (this.currentStep?.layout === 'choose' && this.currentStep?.items && !this.showModal) {
         this.showModal = true;
         this.setTheme();
         return true;
       } else if (!this.nextSteps.length) {
-
         this.status = 'final';
         this.setTheme();
-
         return true;
       } else {
 
         const curr = _.head(this.nextSteps)
-
         this.nextSteps = _.drop(this.nextSteps)
-
         this.prevSteps = [...this.prevSteps, curr]
-
         this.showModal = false;
         this.setTheme()
 

@@ -19,7 +19,7 @@
                 CHOOSE ONE OF THESE METHODS <span class="text-red-600">*</span>
               </h3>
             </div>
-            <div class="flex gap-x-md p-md">
+            <div class="flex gap-x-md p-md h-full">
               <WorkflowItem v-for="item in step.items" v-bind="item"/>
             </div>
           </div>

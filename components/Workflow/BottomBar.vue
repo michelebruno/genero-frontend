@@ -3,8 +3,8 @@
     <div class="aspect-[136/90] border-2 border-black bg-white" v-show="false">
       <img src="~assets/images/net.png" class="h-full w-full object-fill">
     </div>
-    <div>
-      <UiButton v-if="status === 'started'" class="block h-full px-sm bg-white border-2 aspect-square"
+    <div v-if="status === 'started'">
+      <UiButton class="block h-full px-sm bg-white border-2 aspect-square"
                 @click="handlePrev">
         ←
       </UiButton>
@@ -40,14 +40,14 @@
     </div>
     <div class="flex bg-white" ref="navButtons">
       <UiButton class="block h-full aspect-square border-2" @click="handleNext" primary :disabled="isNextDisabled"
-                :theme="status === 'started' && 'dark'  ">
-
+                :theme="status === 'started' && 'dark'">
         {{
           status === 'onboarding' ?
-              "Start"
-              : "Next →"
+              "Start" :
+              status === 'started' ?
+                  "Next →" :
+                  "Report"
         }}
-
       </UiButton>
     </div>
   </div>
@@ -103,7 +103,6 @@ watch(currentStep, () => {
     console.log(e.clientWidth)
     stepperWidth += e.clientWidth
   })
-
 
 
   console.log(stepperWidth, stepperRef.value)
