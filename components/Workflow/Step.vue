@@ -16,7 +16,7 @@
                class="bg-white border-2 border-primary max-w-screen-xl mx-auto min-h-[30ch] absolute left-0 right-0">
             <div class="bg-primary text-white px-md py-sm">
               <h3 class="font-mono text-fix-mono font-bold mb-sm uppercase !mb-0">
-                CHOOSE ONE OF THESE METHODS <span class="text-red-600">*</span>
+                ONE OF THESE METHODS <span class="text-red-600">*</span>
               </h3>
             </div>
             <div class="flex gap-x-md p-md h-full">
@@ -29,16 +29,24 @@
 
     </div>
   </div>
-  <div v-else-if="step.layout === 'know'" class="border-primary border-2 p-lg grid grid-cols-12 h-full relative">
-    <div class="col-span-8 col-start-3 2xl:col-span-6 2xl:col-start-4 text-center">
-      <h2 class="text-7xl font-bold mb-sm">{{ step.title }}</h2>
-      <WorkflowContent :blocks="step.content"/>
-      <div v-if="step.tools.length" class="pt-md ">
-        <span class="inline-block mx-auto text-fix-mono font-mono uppercase font-bold bg-primary text-white p-1 mb-sm">{{ step.toolsLabel }}</span>
-        <div class="grid grid-cols-2">
-          <UiTool v-for="tool in step.tools" v-bind="tool"/>
+  <div v-else-if="step.layout === 'know'" class="border-primary border-2 p-lg flex flex-col  h-full relative auto-rows-max">
+    <div class="grid grid-cols-12">
+      <div class="col-span-8 col-start-3 2xl:col-span-6 2xl:col-start-4 text-center">
+        <h2 class="text-7xl font-bold mb-sm">{{ step.title }}</h2>
+        <WorkflowContent v-if="step.content" :blocks="step.content"/>
+        <div v-if="step?.tools?.length" class="pt-md ">
+        <span class="inline-block mx-auto text-fix-mono font-mono uppercase font-bold bg-primary text-white p-1 mb-sm">{{
+            step.toolsLabel
+          }}</span>
+          <div class="grid grid-cols-2">
+            <UiTool v-for="tool in step?.tools" v-bind="tool"/>
+          </div>
         </div>
       </div>
+    </div>
+    <div class="flex-grow my-xl relative">
+      <SanityImage v-if="step?.image" :asset-id="step?.image?.asset?._ref"
+                   class="mx-auto absolute inset-0 object-contain w-full h-full object-top" auto="format"/>
     </div>
     <span v-if="step?.label" class="step-label">
       {{ step.label }}

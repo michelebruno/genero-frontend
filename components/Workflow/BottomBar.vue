@@ -39,15 +39,12 @@
       </Transition>
     </div>
     <div class="flex bg-white" ref="navButtons">
-      <UiButton class="block h-full aspect-square border-2" @click="handleNext" primary :disabled="isNextDisabled"
-                :theme="status === 'started' && 'dark'">
-        {{
-          status === 'onboarding' ?
-              "Start" :
-              status === 'started' ?
-                  "Next →" :
-                  "Report"
-        }}
+      <UiButton :class="['block h-full  border-2', status !== 'final' && 'aspect-square']" @click="handleNext" primary
+                :disabled="isNextDisabled"
+                :theme="status === 'started' && 'dark'  ">
+        <template v-if="status === 'onboarding'">Start</template>
+        <template v-else-if="status === 'started'">Next →</template>
+        <template v-else-if="status === 'final'">Get your <br> report ↗</template>
       </UiButton>
     </div>
   </div>

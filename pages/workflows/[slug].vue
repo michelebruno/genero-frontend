@@ -26,25 +26,23 @@
                        auto="format"/>
         </div>
         <div v-else-if="status === 'final'"
-             class="relative border border-primary bg-primary-light p-10 grid grid-cols-12 gap-10 text-white my-md pt-xl">
-
-
+             class="relative border-2 border-green p-10 grid grid-cols-12 gap-10  my-md pt-xl">
           <div class="col-span-12 grid grid-cols-10 relative z-10 auto-rows-min ">
-            <h1 class="text-display-1 leading-none font-semibold col-span-10 pb-sm">
-              <span>{{ currentFlow?.title }}</span>
-            </h1>
+
+            <div class="col-span-8 col-start-2">
+
+              <h2 class="text-display-1"><span
+                  class="text-fix-mono font-bold font-mono text-primary block">Well done!</span></h2>
+              <h2 class="text-display-2 font-semibold">You are now ready to design with AI. <br>
+                You can save your step-by-step guide to <span
+                    class="text-primary">Generate visual assets for your brand</span>.</h2>
+
+            </div>
             <WorkflowContent :blocks="currentFlow.description"
                              class="col-span-5 text-white"/>
           </div>
 
-          <div class="col-span-6" v-if="currentFlow?.description">
-            <SanityContent :blocks="currentFlow?.description"/>
-          </div>
-          <div class="absolute z-0 inset-0 w-full h-full bg-primary"></div>
 
-          <SanityImage :asset-id="currentFlow.coverImg?.asset?._ref"
-                       class="absolute z-0 inset-0 w-full h-full object-center object-cover opacity-50 mix-blend-luminosity"
-                       auto="format"/>
         </div>
 
         <div v-else-if="status === 'started'" class="py-md overflow-hidden" :key="workflowsStore.currentStep?._id">

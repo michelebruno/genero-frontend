@@ -85,7 +85,7 @@ export const useWorkflowsStore = defineStore('workflows', {
     },
     setTheme() {
       const store = useStore()
-      if (this.status === 'onboarding') {
+      if (this.status !== 'started') {
         store.setLightTheme()
         return;
       }
@@ -129,7 +129,7 @@ export const useWorkflowsStore = defineStore('workflows', {
         this.showModal = true;
         this.setTheme();
         return true;
-      } else if (!this.nextSteps.length) {
+      } else if (this.nextSteps.length === 1) {
         this.status = 'final';
         this.setTheme();
         return true;
